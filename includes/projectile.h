@@ -1,12 +1,6 @@
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
-enum Direction
-{
-    UP;
-    DOWN;
-    LEFT;
-    RIGHT;
-};
+#include "direction.h"
 
 class ProjectileBehaviourComponent : public Component
 {
