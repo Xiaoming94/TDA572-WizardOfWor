@@ -13,7 +13,15 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add option="`sdl2-config --cflags`" />
+					<Add directory="includes" />
+					<Add directory="src" />
 				</Compiler>
+				<Linker>
+					<Add option="`sdl2-config --libs`" />
+					<Add option="-lSDL2" />
+					<Add option="-lSDL2_ttf" />
+				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/Release/WizardOfWor" prefix_auto="1" extension_auto="1" />
@@ -22,6 +30,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="includes" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -32,7 +41,21 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="main.cpp" />
+		<Unit filename="includes/SDL.h" />
+		<Unit filename="includes/SDL_ttf.h" />
+		<Unit filename="includes/avancezlib.h" />
+		<Unit filename="includes/component.h" />
+		<Unit filename="includes/game.h" />
+		<Unit filename="includes/game_object.h" />
+		<Unit filename="includes/object_pool.h" />
+		<Unit filename="includes/player.h" />
+		<Unit filename="includes/projectile.h" />
+		<Unit filename="includes/rocket.h" />
+		<Unit filename="src/avancezlib.cpp" />
+		<Unit filename="src/component.cpp" />
+		<Unit filename="src/game_object.cpp" />
+		<Unit filename="src/main.cpp" />
+		<Unit filename="src/projectile.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
