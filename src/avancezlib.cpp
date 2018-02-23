@@ -21,7 +21,7 @@ bool AvancezLib::init(int width, int height)
 		SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Window could not be created! SDL_Error: %s\n", SDL_GetError());
 		return false;
 	}
-	
+
 	//Create renderer for window
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	if (renderer == NULL)
@@ -89,12 +89,19 @@ bool AvancezLib::update()
 			case SDLK_SPACE:
 				key.fire = true;
 				break;
-			case SDLK_LEFT:
+			case SDLK_a:
 				key.left = true;
 				break;
-			case SDLK_RIGHT:
+			case SDLK_d:
 				key.right = true;
 				break;
+            case SDLK_w:
+                key.up = true;
+                break;
+            case SDLK_s:
+                key.down = true;
+                break;
+
 			}
 		}
 
@@ -105,12 +112,18 @@ bool AvancezLib::update()
 			case SDLK_SPACE:
 				key.fire = false;
 				break;
-			case SDLK_LEFT:
+			case SDLK_a:
 				key.left = false;
 				break;
-			case SDLK_RIGHT:
+			case SDLK_d:
 				key.right = false;
 				break;
+            case SDLK_w:
+                key.up = false;
+                break;
+            case SDLK_s:
+                key.down = false;
+                break;
 			}
 		}
 

@@ -1,10 +1,12 @@
+#define PLAYER1_SPRITE "../assets/WorriorGold.bmp
+#define
 
 bool change_direction = false;
 
 class Game : public GameObject
 {
 	std::set<GameObject*> game_objects;	// http://www.cplusplus.com/reference/set/set/
-	
+
 	AvancezLib* system;
 
 	ObjectPool<Rocket> rockets_pool;	// used to instantiate rockets
@@ -28,7 +30,7 @@ public:
 		PlayerBehaviourComponent * player_behaviour = new PlayerBehaviourComponent();
 		player_behaviour->Create(system, player, &game_objects, &rockets_pool);
 		RenderComponent * player_render = new RenderComponent();
-		player_render->Create(system, player, &game_objects, "data/player.bmp");
+		player_render->Create(system, player, &game_objects, PLAYER1_SPRITE );
 
 		player->Create();
 		player->AddComponent(player_behaviour);
@@ -116,7 +118,7 @@ public:
 			(*go)->Destroy();
 
 		life_sprite->destroy();
-	
+
 		rockets_pool.Destroy();
 		delete player;
 	}

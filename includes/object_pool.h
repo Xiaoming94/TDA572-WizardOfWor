@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include "SDL.h"
 
 template <class T>
 class ObjectPool
@@ -27,7 +28,7 @@ public:
 	void Deallocate()
 	{
 		SDL_Log("ObjectPool::Deallocating ");
-		for (std::vector<T*>::iterator it = pool.begin(); it != pool.end(); it++)
+		for (typename std::vector<T*>::iterator it = pool.begin(); it != pool.end(); it++)
 			delete *it;
 	}
 
@@ -39,7 +40,7 @@ public:
 
 	T* FirstAvailable()
 	{
-		for (std::vector<T*>::iterator it = pool.begin(); it != pool.end(); it++)
+		for (typename std::vector<T*>::iterator it = pool.begin(); it != pool.end(); it++)
 			if (!(**it).enabled)
 				return (*it);
 

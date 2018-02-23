@@ -51,6 +51,8 @@ public:
 	{
 		bool fire; // space
 		bool left; // left arrow
+		bool up;
+		bool down;
 		bool right; // right arrow
 	};
 
