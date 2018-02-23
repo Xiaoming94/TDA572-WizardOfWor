@@ -1,9 +1,11 @@
 #ifndef DIRECTION_ENUM
 #define DIRECTION_ENUM
-enum Direction
+
+enum class Direction
 {
-    UP;
-    DOWN;
-    LEFT;
-    RIGHT;
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT,
 };
+#endif

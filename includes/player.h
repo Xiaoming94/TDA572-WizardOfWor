@@ -27,13 +27,13 @@ public:
 		AvancezLib::KeyStatus keys;
 		system->getKeyStatus(keys);
 		if (keys.right)
-			Move(dt * PLAYER_SPEED, Direction.RIGHT);
+			Move(dt * PLAYER_SPEED, Direction::RIGHT);
 		else if (keys.left)
-			Move(-dt * PLAYER_SPEED, Direction.LEFT);
+			Move(-dt * PLAYER_SPEED, Direction::LEFT);
         else if (keys.up)
-            Move(-dt * PLAYER_SPEED, Direction.UP);
+            Move(-dt * PLAYER_SPEED, Direction::UP);
         else if (keys.down)
-            Move(dt * PLAYER_SPEED, Direction.down);
+            Move(dt * PLAYER_SPEED, Direction::DOWN);
 		else if (keys.fire)
 		{
 			if (CanFire())
@@ -54,7 +54,7 @@ public:
 	// param move depends on the time, so the player moves always at the same speed on any computer
 	void Move(float move, Direction dir)
 	{
-	    if(dir == Direction.UP || dir == Direction.DOWN)
+	    if(dir == Direction::UP || dir == Direction::DOWN)
             go->verticalPosition += move;
         else
             go->horizontalPosition += move;
@@ -66,7 +66,7 @@ public:
 			go->horizontalPosition = 0;
 
         if (go->verticalPosition > (480 - 32))
-            go->verticalPosition = 480 - 32
+            go->verticalPosition = 480 - 32;
 
         if (go->verticalPosition < 0)
             go->verticalPosition = 0;

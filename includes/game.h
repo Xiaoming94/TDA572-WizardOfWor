@@ -1,5 +1,4 @@
-#define PLAYER1_SPRITE "../assets/WorriorGold.bmp
-#define
+#define PLAYER1_SPRITE "../assets/WorriorGold.bmp"
 
 bool change_direction = false;
 
@@ -51,7 +50,7 @@ public:
 		}
 
 
-		life_sprite = system->createSprite("data/player.bmp");
+		life_sprite = system->createSprite(PLAYER1_SPRITE);
 		score = 0;
 	}
 

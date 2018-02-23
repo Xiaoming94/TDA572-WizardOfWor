@@ -1,18 +1,20 @@
 #include "projectile.h"
+#include "constants.h"
+
 
 void ProjectileBehaviourComponent::Update(float dt, Direction dir){
     switch (dir)
     {
-    case Direction.UP:
+    case Direction::UP:
         go->verticalPosition -= ROCKET_SPEED * dt;
         break;
-    case Direction.DOWN:
+    case Direction::DOWN:
         go->verticalPosition += ROCKET_SPEED * dt;
         break;
-    case Direction.LEFT:
+    case Direction::LEFT:
         go->horizontalPosition -= ROCKET_SPEED * dt;
         break;
-    case Direction.RIGHT:
+    case Direction::RIGHT:
         go->horizontalPosition += ROCKET_SPEED * dt;
         break;
     default: break;
@@ -25,7 +27,7 @@ void ProjectileBehaviourComponent::Update(float dt, Direction dir){
         go->enabled = false;
 }
 
-void Projectile::Init(double xPo,yPo)
+void Projectile::Init(double xPo, double yPo)
 {
     SDL_Log("Projectile::Init");
     GameObject::Init();
