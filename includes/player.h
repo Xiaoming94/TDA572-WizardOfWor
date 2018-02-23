@@ -1,4 +1,4 @@
-
+#include "direction.h"
 
 class PlayerBehaviourComponent : public Component
 {
@@ -27,9 +27,13 @@ public:
 		AvancezLib::KeyStatus keys;
 		system->getKeyStatus(keys);
 		if (keys.right)
-			Move(dt * PLAYER_SPEED);
+			Move(dt * PLAYER_SPEED, Direction.RIGHT);
 		else if (keys.left)
-			Move(-dt * PLAYER_SPEED);
+			Move(-dt * PLAYER_SPEED, Direction.LEFT);
+        else if (keys.up)
+            Move(-dt * PLAYER_SPEED, Direction.UP);
+        else if (keys.down)
+            Move(dt * PLAYER_SPEED, Direction.down);
 		else if (keys.fire)
 		{
 			if (CanFire())
@@ -48,15 +52,24 @@ public:
 
 	// move the player left or right
 	// param move depends on the time, so the player moves always at the same speed on any computer
-	void Move(float move)
+	void Move(float move, Direction dir)
 	{
-		go->horizontalPosition += move;
+	    if(dir == Direction.UP || dir == Direction.DOWN)
+            go->verticalPosition += move;
+        else
+            go->horizontalPosition += move;
 
 		if (go->horizontalPosition > (640 - 32))
 			go->horizontalPosition = 640 - 32;
-			
+
 		if (go->horizontalPosition < 0)
 			go->horizontalPosition = 0;
+
+        if (go->verticalPosition > (480 - 32))
+            go->verticalPosition = 480 - 32
+
+        if (go->verticalPosition < 0)
+            go->verticalPosition = 0;
 	}
 
 	// return true if enough time has passed from the previous rocket
@@ -79,7 +92,7 @@ class Player : public GameObject
 {
 public:
 
-	int lives;	// it's game over when goes below zero 
+	int lives;	// it's game over when goes below zero
 
 	virtual ~Player()	{		SDL_Log("Player::~Player");	}
 
@@ -90,10 +103,10 @@ public:
 		lives = NUM_LIVES;
 	}
 
-	virtual void Receive(Message m) 
+	virtual void Receive(Message m)
 	{
 		if (m == HIT)
-		{ 
+		{
 			SDL_Log("Player::Hit!");
 			RemoveLife();
 
