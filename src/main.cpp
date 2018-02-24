@@ -9,7 +9,7 @@
 
 #include "constants.h"
 
-
+float game_speed = 1.f;
 #include "component.h"
 #include "game_object.h"
 

@@ -1,4 +1,5 @@
-#define PLAYER1_SPRITE "../assets/WorriorGold.bmp"
+#define PLAYER1_SPRITE "assets/WorriorGold.bmp"
+#define PROJECTILE_SPRITE "assets/rocket.bmp"
 
 bool change_direction = false;
 
@@ -43,7 +44,7 @@ public:
 			RocketBehaviourComponent * behaviour = new RocketBehaviourComponent();
 			behaviour->Create(system, *rocket, &game_objects);
 			RenderComponent * render = new RenderComponent();
-			render->Create(system, *rocket, &game_objects, "data/rocket.bmp");
+			render->Create(system, *rocket, &game_objects, PROJECTILE_SPRITE);
 			(*rocket)->Create();
 			(*rocket)->AddComponent(behaviour);
 			(*rocket)->AddComponent(render);
