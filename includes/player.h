@@ -1,17 +1,18 @@
 #include "direction.h"
+#include "moving_component.h"
+#include "moving_game_object.h"
 
-class PlayerBehaviourComponent : public Component
+class PlayerBehaviourComponent : public MovingComponent
 {
 	float time_fire_pressed;	// time from the last time the fire button was pressed
 	ObjectPool<Projectile> * projectiles_pool;
 
 public:
-    Direction dir;
 	virtual ~PlayerBehaviourComponent() {}
 
-	virtual void Create(AvancezLib* system, GameObject * go, std::set<GameObject*> * game_objects, ObjectPool<Projectile> * projectiles_pool)
+	virtual void Create(AvancezLib* system, MovingGameObject * go, std::set<GameObject*> * game_objects, ObjectPool<Projectile> * projectiles_pool)
 	{
-		Component::Create(system, go, game_objects);
+		MovingComponent::Create(system, go, game_objects);
 		this->projectiles_pool = projectiles_pool;
 	}
 
@@ -43,7 +44,7 @@ public:
 				Projectile * projectile = projectiles_pool->FirstAvailable();
 				if (projectile != NULL)	// Projectile is NULL is the object pool can not provide an object
 				{
-					projectile->Init(go->horizontalPosition,go->verticalPosition,this -> dir);
+					projectile->Init(mgo->horizontalPosition,mgo->verticalPosition,mgo -> getDirection());
 					game_objects->insert(projectile);
 				}
 			}
@@ -55,7 +56,7 @@ public:
 	// param move depends on the time, so the player moves always at the same speed on any computer
 	void Move(float move, Direction dir)
 	{
-	    this -> dir = dir;
+	    this -> mgo -> setDirection(dir);
 	    if(dir == Direction::UP || dir == Direction::DOWN)
             go->verticalPosition += move;
         else
@@ -90,7 +91,7 @@ public:
 
 
 // the main player
-class Player : public GameObject
+class Player : public MovingGameObject
 {
 public:
 

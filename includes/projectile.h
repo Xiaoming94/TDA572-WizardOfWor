@@ -1,10 +1,9 @@
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
 #include "direction.h"
-#include "component.h"
 #include "game_object.h"
-
-class ProjectileBehaviourComponent : public Component
+#include "moving_component.h"
+class ProjectileBehaviourComponent : public MovingComponent
 {
 public:
     void Update(float dt);
@@ -13,10 +12,9 @@ public:
 
 
 // rockets are shot by the player towards the aliens
-class Projectile : public GameObject
+class Projectile : public MovingGameObject
 {
 public:
-    Direction dir;
     virtual void Init(double xPo,double yPo,Direction dir);
     virtual void Receive(Message m);
 };
