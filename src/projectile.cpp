@@ -1,5 +1,8 @@
 #include "projectile.h"
 #include "constants.h"
+void ProjectileBehaviourComponent::Update(float dt){
+    this -> Update(dt,Direction::NONE);
+}
 
 
 void ProjectileBehaviourComponent::Update(float dt, Direction dir){
@@ -27,12 +30,13 @@ void ProjectileBehaviourComponent::Update(float dt, Direction dir){
         go->enabled = false;
 }
 
-void Projectile::Init(double xPo, double yPo)
+void Projectile::Init(double xPo, double yPo, Direction dir)
 {
     SDL_Log("Projectile::Init");
     GameObject::Init();
     horizontalPosition = xPo;
     verticalPosition = yPo;
+    this -> dir = dir;
 }
 
 void Projectile::Receive(Message m)

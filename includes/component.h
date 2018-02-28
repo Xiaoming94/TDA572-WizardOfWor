@@ -1,3 +1,6 @@
+#ifndef COMPONENT_H
+#define COMPONENT_H
+
 #include <set>
 #include "object_pool.h"
 
@@ -47,3 +50,4 @@ public:
 	virtual void Update(float dt);
 };
 
+#endif // COMPONENT_H

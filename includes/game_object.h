@@ -1,3 +1,6 @@
+#ifndef GAME_OBJECT_H
+#define GAME_OBJECT_H
+
 // GameObject represents objects which moves are drawn
 #include <vector>
 
@@ -28,3 +31,4 @@ public:
 	virtual void Receive(Message m) {}
 	void Send(Message m);
 };
+#endif // GAME_OBJECT_H

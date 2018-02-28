@@ -9,7 +9,7 @@ class Game : public GameObject
 
 	AvancezLib* system;
 
-	ObjectPool<Rocket> rockets_pool;	// used to instantiate rockets
+	ObjectPool<Projectile> projectiles_pool;	// used to instantiate projectiles
 
 	Player * player;
 
@@ -28,7 +28,7 @@ public:
 
 		player = new Player();
 		PlayerBehaviourComponent * player_behaviour = new PlayerBehaviourComponent();
-		player_behaviour->Create(system, player, &game_objects, &rockets_pool);
+		player_behaviour->Create(system, player, &game_objects, &projectiles_pool);
 		RenderComponent * player_render = new RenderComponent();
 		player_render->Create(system, player, &game_objects, PLAYER1_SPRITE );
 
@@ -38,16 +38,16 @@ public:
 		player->AddReceiver(this);
 		game_objects.insert(player);
 
-		rockets_pool.Create(30);
-		for (auto rocket = rockets_pool.pool.begin(); rocket != rockets_pool.pool.end(); rocket++)
+		projectiles_pool.Create(30);
+		for (auto projectile = projectiles_pool.pool.begin(); projectile != projectiles_pool.pool.end(); projectile++)
 		{
-			RocketBehaviourComponent * behaviour = new RocketBehaviourComponent();
-			behaviour->Create(system, *rocket, &game_objects);
+			ProjectileBehaviourComponent * behaviour = new ProjectileBehaviourComponent();
+			behaviour->Create(system, *projectile, &game_objects);
 			RenderComponent * render = new RenderComponent();
-			render->Create(system, *rocket, &game_objects, PROJECTILE_SPRITE);
-			(*rocket)->Create();
-			(*rocket)->AddComponent(behaviour);
-			(*rocket)->AddComponent(render);
+			render->Create(system, *projectile, &game_objects, PROJECTILE_SPRITE);
+			(*projectile)->Create();
+			(*projectile)->AddComponent(behaviour);
+			(*projectile)->AddComponent(render);
 		}
 
 
@@ -119,7 +119,7 @@ public:
 
 		life_sprite->destroy();
 
-		rockets_pool.Destroy();
+		projectiles_pool.Destroy();
 		delete player;
 	}
 };

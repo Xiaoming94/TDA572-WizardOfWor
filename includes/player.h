@@ -3,15 +3,16 @@
 class PlayerBehaviourComponent : public Component
 {
 	float time_fire_pressed;	// time from the last time the fire button was pressed
-	ObjectPool<Rocket> * rockets_pool;
+	ObjectPool<Projectile> * projectiles_pool;
 
 public:
+    Direction dir;
 	virtual ~PlayerBehaviourComponent() {}
 
-	virtual void Create(AvancezLib* system, GameObject * go, std::set<GameObject*> * game_objects, ObjectPool<Rocket> * rockets_pool)
+	virtual void Create(AvancezLib* system, GameObject * go, std::set<GameObject*> * game_objects, ObjectPool<Projectile> * projectiles_pool)
 	{
 		Component::Create(system, go, game_objects);
-		this->rockets_pool = rockets_pool;
+		this->projectiles_pool = projectiles_pool;
 	}
 
 	virtual void Init()
@@ -38,12 +39,12 @@ public:
 		{
 			if (CanFire())
 			{
-				// fetches a rocket from the pool and use it in game_objects
-				Rocket * rocket = rockets_pool->FirstAvailable();
-				if (rocket != NULL)	// rocket is NULL is the object pool can not provide an object
+				// fetches a Projectile from the pool and use it in game_objects
+				Projectile * projectile = projectiles_pool->FirstAvailable();
+				if (projectile != NULL)	// Projectile is NULL is the object pool can not provide an object
 				{
-					rocket->Init(go->horizontalPosition);
-					game_objects->insert(rocket);
+					projectile->Init(go->horizontalPosition,go->verticalPosition,this -> dir);
+					game_objects->insert(projectile);
 				}
 			}
 		}
@@ -54,6 +55,7 @@ public:
 	// param move depends on the time, so the player moves always at the same speed on any computer
 	void Move(float move, Direction dir)
 	{
+	    this -> dir = dir;
 	    if(dir == Direction::UP || dir == Direction::DOWN)
             go->verticalPosition += move;
         else
@@ -72,7 +74,7 @@ public:
             go->verticalPosition = 0;
 	}
 
-	// return true if enough time has passed from the previous rocket
+	// return true if enough time has passed from the previous Projectile
 	bool CanFire()
 	{
 		// shoot just if enough time passed by

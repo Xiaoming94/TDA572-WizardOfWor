@@ -7,6 +7,7 @@
 class ProjectileBehaviourComponent : public Component
 {
 public:
+    void Update(float dt);
     void Update(float dt,Direction dir);
 };
 
@@ -15,7 +16,8 @@ public:
 class Projectile : public GameObject
 {
 public:
-    virtual void Init(double xPo,double yPo);
+    Direction dir;
+    virtual void Init(double xPo,double yPo,Direction dir);
     virtual void Receive(Message m);
 };
 #endif // PROJECTILE_H
