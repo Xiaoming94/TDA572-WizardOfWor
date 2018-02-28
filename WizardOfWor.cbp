@@ -45,6 +45,8 @@
 		<Unit filename="includes/SDL_ttf.h" />
 		<Unit filename="includes/avancezlib.h" />
 		<Unit filename="includes/component.h" />
+		<Unit filename="includes/constants.h" />
+		<Unit filename="includes/direction.h" />
 		<Unit filename="includes/game.h" />
 		<Unit filename="includes/game_object.h" />
 		<Unit filename="includes/object_pool.h" />

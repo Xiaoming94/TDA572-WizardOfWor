@@ -193,6 +193,8 @@ void AvancezLib::getKeyStatus(KeyStatus & keys)
 	keys.fire = key.fire;
 	keys.left = key.left;
 	keys.right = key.right;
+	keys.up = key.up;
+	keys.down = key.down;
 }
 
 
