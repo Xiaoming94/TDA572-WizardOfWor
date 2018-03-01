@@ -36,7 +36,7 @@ public:
             Move(-dt * PLAYER_SPEED, Direction::UP);
         else if (keys.down)
             Move(dt * PLAYER_SPEED, Direction::DOWN);
-		else if (keys.fire)
+		if (keys.fire)
 		{
 			if (CanFire())
 			{
