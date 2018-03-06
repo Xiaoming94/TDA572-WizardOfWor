@@ -51,12 +51,15 @@
 		<Unit filename="includes/direction.h" />
 		<Unit filename="includes/game.h" />
 		<Unit filename="includes/game_object.h" />
+		<Unit filename="includes/game_stage.h" />
 		<Unit filename="includes/moving_component.h" />
 		<Unit filename="includes/moving_game_object.h" />
 		<Unit filename="includes/object_pool.h" />
 		<Unit filename="includes/player.h" />
 		<Unit filename="includes/projectile.h" />
+		<Unit filename="includes/projectile_render_component.h" />
 		<Unit filename="includes/rocket.h" />
+		<Unit filename="includes/wall.h" />
 		<Unit filename="src/avancezlib.cpp" />
 		<Unit filename="src/component.cpp" />
 		<Unit filename="src/game_object.cpp" />
@@ -64,6 +67,8 @@
 		<Unit filename="src/moving_component.cpp" />
 		<Unit filename="src/moving_game_object.cpp" />
 		<Unit filename="src/projectile.cpp" />
+		<Unit filename="src/projectile_render_component.cpp" />
+		<Unit filename="src/wall.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
