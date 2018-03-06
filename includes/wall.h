@@ -31,20 +31,23 @@ enum class WallType
     BOTH_V, // Walls on both sides, vertical
 };
 
-class Wall : public GameObject
-{
-    public:
-        void Create(double x, double y);
-        void Update(float dt);
-
-    protected:
-
-    private:
-};
-
 class WallRenderComponent : public RenderComponent
 {
     public:
         void Create(AvancezLib* system, GameObject * go, std::set<GameObject*> * game_objects, WallType wt);
+};
+
+class Wall : public GameObject
+{
+    WallType wt;
+    WallRenderComponent * wcr;
+    public:
+        void Create(double x, double y, WallType wt);
+        void setRender(WallRenderComponent * wcr);
+        void Update();
+        void Destroy();
+    protected:
+
+    private:
 };
 #endif // WALL_H

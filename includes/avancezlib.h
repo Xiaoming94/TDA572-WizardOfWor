@@ -49,11 +49,11 @@ public:
 
 	struct KeyStatus
 	{
-		bool fire; // space
-		bool left; // left arrow
-		bool up;
-		bool down;
-		bool right; // right arrow
+		bool fire = false; // space
+		bool left = false; // left arrow
+		bool up = false;
+		bool down = false;
+		bool right = false; // right arrow
 	};
 
 	// Returns the keyboard status. If a flag is set, the corresponding key is being held down.

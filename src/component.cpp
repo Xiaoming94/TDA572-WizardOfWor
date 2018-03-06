@@ -14,6 +14,12 @@ void RenderComponent::Create(AvancezLib * system, GameObject * go, std::set<Game
 	Component::Create(system, go, game_objects);
 
 	sprite = system->createSprite(sprite_name);
+	if(sprite)
+    {
+        SDL_Log("Sprite::INIT SUCCESS");
+    }
+    else
+        SDL_Log("SPRITE::INIT FAILED");
 }
 
 void RenderComponent::Update(float dt)
@@ -21,8 +27,10 @@ void RenderComponent::Update(float dt)
 	if (!go->enabled)
 		return;
 
-	if (sprite)
-		sprite->draw(int(go->horizontalPosition), int(go->verticalPosition));
+	if (sprite){
+        sprite->draw(int(go->horizontalPosition), int(go->verticalPosition));
+	}
+
 }
 
 void RenderComponent::Destroy()

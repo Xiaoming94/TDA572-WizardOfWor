@@ -1,18 +1,28 @@
 #include "wall.h"
 
-void Wall::Create(double x, double y)
+void Wall::Create(double x, double y, WallType wt)
 {
     GameObject::Create();
     this -> horizontalPosition = x;
     this -> verticalPosition = y;
+    this -> wt = wt;
     enabled = true; // Walls are always enabled
 }
 
-void Wall::Update(float dt)
+void Wall::setRender(WallRenderComponent * wcr)
 {
-    GameObject::Update(dt);
+    this -> wcr = wcr;
 }
 
+void Wall::Update()
+{
+    GameObject::Update(0.1f);
+}
+
+void Wall::Destroy()
+{
+    GameObject::Destroy();
+}
 void WallRenderComponent::Create(AvancezLib* system, GameObject * go, std::set<GameObject*> * game_objects, WallType wt)
 {
     switch (wt)
@@ -48,6 +58,7 @@ void WallRenderComponent::Create(AvancezLib* system, GameObject * go, std::set<G
             RenderComponent::Create(system, go, game_objects, WALL_R_SPRITE);
             break;
         default:
+            SDL_Log("Invalid WallType");
             break;
 
     }

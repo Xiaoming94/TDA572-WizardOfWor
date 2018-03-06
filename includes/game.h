@@ -1,6 +1,7 @@
 #define PLAYER1_SPRITE "assets/WorriorGold.bmp"
 #define PROJECTILE_SPRITE "assets/rocket.bmp"
 
+#include "map.h"
 bool change_direction = false;
 
 class Game : public GameObject
@@ -18,6 +19,7 @@ class Game : public GameObject
 
 	unsigned int score = 0;
 
+    Map * game_map;
 public:
 
 	virtual void Create(AvancezLib* system)
@@ -53,6 +55,8 @@ public:
 
 		life_sprite = system->createSprite(PLAYER1_SPRITE);
 		score = 0;
+		game_map = create_standard_map(system);
+
 	}
 
 	virtual void Init()
@@ -65,6 +69,7 @@ public:
 
 	virtual void Update(float dt)
 	{
+	    game_map -> draw();
 		if (IsGameOver())
 			dt = 0.f;
 
@@ -121,5 +126,6 @@ public:
 
 		projectiles_pool.Destroy();
 		delete player;
+		delete game_map;
 	}
 };
