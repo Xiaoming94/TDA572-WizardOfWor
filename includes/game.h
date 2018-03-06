@@ -27,6 +27,13 @@ public:
 		SDL_Log("Game::Create");
 
 		this->system = system;
+        game_map = create_standard_map(system);
+        for (auto row : game_map -> get_map()){
+            for (auto tile : row)
+                game_objects.insert(tile);
+        }
+
+
 
 		player = new Player();
 		PlayerBehaviourComponent * player_behaviour = new PlayerBehaviourComponent();
@@ -55,7 +62,6 @@ public:
 
 		life_sprite = system->createSprite(PLAYER1_SPRITE);
 		score = 0;
-		game_map = create_standard_map(system);
 
 	}
 
@@ -69,7 +75,6 @@ public:
 
 	virtual void Update(float dt)
 	{
-	    game_map -> draw();
 		if (IsGameOver())
 			dt = 0.f;
 

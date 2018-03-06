@@ -4,17 +4,19 @@
 #include <vector>
 #include <string>
 #include "wall.h"
+#include "constants.h"
 
 const int mapW = 5;
 const int mapH = 2;
+const int startingX = 3 * SPRITE_SIDE;
+const int startingY = 3 * SPRITE_SIDE;
 
 class Map
 {
     public:
         Map();
-        ~Map();
-        void create(std :: string map_model,AvancezLib* system);
-        void draw();
+        void Create(std :: string map_model,AvancezLib* system);
+        std::vector<std::vector<Wall*>> get_map();
         Wall tileAt(int x, int y);
     protected:
         std::vector<std::vector<Wall*>> the_map;

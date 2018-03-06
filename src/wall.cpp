@@ -6,12 +6,6 @@ void Wall::Create(double x, double y, WallType wt)
     this -> horizontalPosition = x;
     this -> verticalPosition = y;
     this -> wt = wt;
-    enabled = true; // Walls are always enabled
-}
-
-void Wall::setRender(WallRenderComponent * wcr)
-{
-    this -> wcr = wcr;
 }
 
 void Wall::Update()
@@ -23,26 +17,33 @@ void Wall::Destroy()
 {
     GameObject::Destroy();
 }
+
 void WallRenderComponent::Create(AvancezLib* system, GameObject * go, std::set<GameObject*> * game_objects, WallType wt)
 {
     switch (wt)
     {
         case WallType::BOTH_H :
+            SDL_Log("Wall Creating::BOTH_H");
             RenderComponent::Create(system, go, game_objects, WALL_BH_SPRITE);
             break;
         case WallType::BOTH_V :
+            SDL_Log("Wall Creating::BOTH_V");
             RenderComponent::Create(system, go, game_objects, WALL_BV_SPRITE);
             break;
         case WallType::CORNER_BL :
+            SDL_Log("Wall Creating::CBL");
             RenderComponent::Create(system, go, game_objects, WALL_CBL_SPRITE);
             break;
         case WallType::CORNER_BR :
+            SDL_Log("Wall Creating::CBR");
             RenderComponent::Create(system, go, game_objects, WALL_CBR_SPRITE);
             break;
         case WallType::CORNER_TL :
+            SDL_Log("Wall Creating::CTL");
             RenderComponent::Create(system, go, game_objects, WALL_CTL_SPRITE);
             break;
         case WallType::CORNER_TR :
+            SDL_Log("Wall Creating::CTR");
             RenderComponent::Create(system, go, game_objects, WALL_CTR_SPRITE);
             break;
         case WallType::DOWN :
@@ -62,4 +63,10 @@ void WallRenderComponent::Create(AvancezLib* system, GameObject * go, std::set<G
             break;
 
     }
+
+}
+
+void  WallRenderComponent::Destroy()
+{
+    RenderComponent::Destroy();
 }
