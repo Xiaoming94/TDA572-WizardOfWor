@@ -17,7 +17,7 @@
 #define WALL_CBL_SPRITE "assets/WallcornerBL.bmp"
 #define WALL_CBR_SPRITE "assets/WallcornerBR.bmp"
 
-enum WallType
+enum class WallType
 {
     UP,
     LEFT,
@@ -35,17 +35,17 @@ class WallRenderComponent : public RenderComponent
 {
     public:
         void Create(AvancezLib* system, GameObject * go, std::set<GameObject*> * game_objects, WallType wt);
-        void Destroy();
 };
 
 class Wall : public GameObject
 {
     WallType wt;
+    WallRenderComponent * wcr;
     public:
         void Create(double x, double y, WallType wt);
+        void setRender(WallRenderComponent * wcr);
         void Update();
         void Destroy();
-        void PrintType();
     protected:
 
     private:

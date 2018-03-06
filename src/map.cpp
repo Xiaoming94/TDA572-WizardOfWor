@@ -8,22 +8,32 @@
 
 Map::Map(){}
 
-void Map::Create(std::string map_model,AvancezLib* system)
+Map::~Map()
+{
+     for(std::vector<Wall*> map_row : the_map){
+        for(Wall * wall_tile : map_row){
+            wall_tile -> Destroy();
+            delete wall_tile;
+        }
+    }
+}
+void Map::create(std::string map_model,AvancezLib* system)
 {
     SDL_Log("Map::Create");
     std::stringstream mapss(map_model);
     std::string mapRow;
-    int y = startingY;
+    int x = 0;
     while(std::getline(mapss, mapRow, '\n'))
     {
         std::stringstream mapRowSS(mapRow);
         std::string tile;
-        int x = startingX;
+        int y = 0;
         std::vector<Wall*> map_row;
         while(std::getline(mapRowSS,tile,','))
         {
             // Translates the grid coordinate to In game Pixel coordinates
-            std::cout << "x : " << x << " y : " << y << "\n";
+            double realx = double(3 * SPRITE_SIDE + x * SPRITE_SIDE);
+            double realy = double(3 * SPRITE_SIDE + y * SPRITE_SIDE);
             Wall * wall_tile;
             WallRenderComponent * wrc = new WallRenderComponent();
             WallType wt;
@@ -38,26 +48,29 @@ void Map::Create(std::string map_model,AvancezLib* system)
             else if(!tile.compare("cbr"))
                 wt = WallType::CORNER_BR;
 
-            wall_tile = new Wall();
             wrc -> Create(system, wall_tile, NULL, wt);
-            wall_tile -> Create(x, y ,wt);
+            wall_tile = new Wall();
+            wall_tile -> Create(realy, realx ,wt);
             wall_tile -> AddComponent(wrc);
-            wall_tile -> Init();
             map_row.push_back(wall_tile);
-            x+=32;
+            y++;
         }
-        std::reverse(map_row.begin(),map_row.end());
         the_map.push_back(map_row);
-        y+=32;
+        x++;
     }
-    std::reverse(the_map.begin(),the_map.end());
     SDL_Log(std::to_string(the_map.size()).c_str());
 
 }
 
-std::vector<std::vector<Wall *>> Map::get_map()
+void Map::draw()
 {
-    return this -> the_map;
+    for (int i = 0; i < the_map.size(); i++)
+    {
+        for(int j = 0; j < the_map.at(i).size(); j++)
+        {
+            the_map.at(i).at(j) -> Update();
+        }
+    }
 }
 
 Wall Map::tileAt(int x, int y)
@@ -69,7 +82,7 @@ Map * create_standard_map(AvancezLib* system)
 {
     std::string standardMap = "ctl,bv,bv,bv,bv,ctr\ncbl,bv,bv,bv,bv,cbr";
     Map * the_map = new Map();
-    the_map -> Create(standardMap, system);
+    the_map -> create(standardMap, system);
     return the_map;
 }
 
