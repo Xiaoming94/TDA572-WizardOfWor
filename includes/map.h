@@ -15,7 +15,7 @@ class Map
         ~Map();
         void create(std :: string map_model,AvancezLib* system);
         void draw();
-        Wall tileAt(int x, int y);
+        Wall * tileAt(double x, double y);
     protected:
         std::vector<std::vector<Wall*>> the_map;
     private:

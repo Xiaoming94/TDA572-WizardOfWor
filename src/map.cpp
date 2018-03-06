@@ -1,10 +1,9 @@
 #include "map.h"
 #include "constants.h"
 #include <sstream>
-#include <iostream>
 #include <algorithm>
 #include <iterator>
-
+#include <cmath>
 
 Map::Map(){}
 
@@ -48,16 +47,18 @@ void Map::create(std::string map_model,AvancezLib* system)
             else if(!tile.compare("cbr"))
                 wt = WallType::CORNER_BR;
 
-            wrc -> Create(system, wall_tile, NULL, wt);
             wall_tile = new Wall();
+            wrc -> Create(system, wall_tile, NULL, wt);
             wall_tile -> Create(realy, realx ,wt);
             wall_tile -> AddComponent(wrc);
             map_row.push_back(wall_tile);
             y++;
         }
+        std::reverse(map_row.begin(),map_row.end());
         the_map.push_back(map_row);
         x++;
     }
+    std::reverse(the_map.begin(),the_map.end());
     SDL_Log(std::to_string(the_map.size()).c_str());
 
 }
@@ -73,9 +74,16 @@ void Map::draw()
     }
 }
 
-Wall Map::tileAt(int x, int y)
+Wall * Map::tileAt(double x, double y)
 {
-    return *the_map.at(x).at(y);
+    int mapX = int(std::round(x * X_MAPSCALE));
+    int mapY = int(std::round(y * Y_MAPSCALE));
+    if(mapX < 0 || mapX > mapW || mapY < 0 || mapY > mapH)//Check boundaries
+    {
+        return NULL;
+    }
+    else
+        return the_map.at(mapY).at(mapX);
 }
 
 Map * create_standard_map(AvancezLib* system)
