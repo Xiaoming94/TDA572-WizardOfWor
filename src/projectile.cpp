@@ -1,7 +1,7 @@
 #include "projectile.h"
 #include "constants.h"
 void ProjectileBehaviourComponent::Update(float dt){
-    this -> Update(dt,mgo -> getDirection());
+    this -> Update(2*dt,mgo -> getDirection());
 }
 
 
