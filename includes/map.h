@@ -5,8 +5,8 @@
 #include <string>
 #include "wall.h"
 
-const int mapW = 5;
-const int mapH = 2;
+const int mapW = 8;
+const int mapH = 6;
 
 class Map
 {

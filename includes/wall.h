@@ -29,6 +29,7 @@ enum class WallType
     CORNER_BR, //corner bottom right
     BOTH_H, // Walls on both sides, horizontal
     BOTH_V, // Walls on both sides, vertical
+    NONE,
 };
 
 class WallRenderComponent : public RenderComponent
