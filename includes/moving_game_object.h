@@ -3,14 +3,17 @@
 
 #include "game_object.h"
 #include "direction.h"
+#include "map.h"
 
 class MovingGameObject : public GameObject
 {
     public:
         Direction getDirection();
         void setDirection(Direction dir);
+        void setGameMap(Map * game_map);
     protected:
         Direction dir;
+        Map * game_map;
     private:
 };
 

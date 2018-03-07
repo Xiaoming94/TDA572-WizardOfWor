@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <iterator>
 #include <cmath>
+#include <iostream>
 
 Map::Map(){}
 
@@ -21,18 +22,16 @@ void Map::create(std::string map_model,AvancezLib* system)
     SDL_Log("Map::Create");
     std::stringstream mapss(map_model);
     std::string mapRow;
-    int x = 0;
+    int y = startY;
     while(std::getline(mapss, mapRow, '\n'))
     {
         std::stringstream mapRowSS(mapRow);
         std::string tile;
-        int y = 0;
+        int x = startX;
         std::vector<Wall*> map_row;
         while(std::getline(mapRowSS,tile,','))
         {
             // Translates the grid coordinate to In game Pixel coordinates
-            double realx = double(3 * SPRITE_SIDE + x * SPRITE_SIDE);
-            double realy = double(3 * SPRITE_SIDE + y * SPRITE_SIDE);
             Wall * wall_tile;
             WallRenderComponent * wrc = new WallRenderComponent();
             WallType wt = WallType::NONE;
@@ -58,20 +57,18 @@ void Map::create(std::string map_model,AvancezLib* system)
                 wt = WallType::BOTH_H;
 
             wall_tile = new Wall();
-            wall_tile -> Create(realy, realx ,wt);
+            wall_tile -> Create(x,y,wt);
             if(wt != WallType::NONE)
             {
                 wrc -> Create(system, wall_tile, NULL, wt);
                 wall_tile -> AddComponent(wrc);
             }
             map_row.push_back(wall_tile);
-            y++;
+            x+=SPRITE_SIDE;
         }
-        std::reverse(map_row.begin(),map_row.end());
         the_map.push_back(map_row);
-        x++;
+        y+=SPRITE_SIDE;
     }
-    std::reverse(the_map.begin(),the_map.end());
     SDL_Log(std::to_string(the_map.size()).c_str());
 
 }
@@ -89,14 +86,20 @@ void Map::draw()
 
 Wall * Map::tileAt(double x, double y)
 {
-    int mapX = int(std::round(x * X_MAPSCALE));
-    int mapY = int(std::round(y * Y_MAPSCALE));
+    x = x - static_cast<double>(startX);
+    y = y - static_cast<double>(startY);
+    int mapX = static_cast<int>(std::round(x/SPRITE_SIDE));
+    int mapY = static_cast<int>(std::round(y/SPRITE_SIDE));
     if(mapX < 0 || mapX > mapW || mapY < 0 || mapY > mapH)//Check boundaries
     {
         return NULL;
     }
     else
-        return the_map.at(mapY).at(mapX);
+        return this -> tileAt(mapX,mapY);
+}
+Wall * Map::tileAt(int x, int y)
+{
+    return the_map.at(y).at(x);
 }
 
 Map * create_standard_map(AvancezLib* system)
@@ -108,6 +111,7 @@ Map * create_standard_map(AvancezLib* system)
     "l,r,cbl,bh,bh,bh,bh,bh\n"
     "bh,cbl,bv,d,d,n,cbr,bh\n"
     "cbl,bv,bv,bv,bv,d,bv,cbr";
+
     std::string standardMap(mapString);
     Map * the_map = new Map();
     the_map -> create(standardMap, system);

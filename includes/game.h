@@ -27,10 +27,10 @@ public:
 		SDL_Log("Game::Create");
 
 		this->system = system;
-
+        game_map = create_standard_map(system);
 		player = new Player();
 		PlayerBehaviourComponent * player_behaviour = new PlayerBehaviourComponent();
-		player_behaviour->Create(system, player, &game_objects, &projectiles_pool);
+		player_behaviour->Create(system, player, &game_objects, game_map ,&projectiles_pool);
 		RenderComponent * player_render = new RenderComponent();
 		player_render->Create(system, player, &game_objects, PLAYER1_SPRITE );
 
@@ -44,7 +44,7 @@ public:
 		for (auto projectile = projectiles_pool.pool.begin(); projectile != projectiles_pool.pool.end(); projectile++)
 		{
 			ProjectileBehaviourComponent * behaviour = new ProjectileBehaviourComponent();
-			behaviour->Create(system, *projectile, &game_objects);
+			behaviour->Create(system, *projectile, &game_objects, game_map);
 			RenderComponent * render = new RenderComponent();
 			render->Create(system, *projectile, &game_objects, PROJECTILE_SPRITE);
 			(*projectile)->Create();
@@ -55,7 +55,6 @@ public:
 
 		life_sprite = system->createSprite(PLAYER1_SPRITE);
 		score = 0;
-		game_map = create_standard_map(system);
 
 	}
 

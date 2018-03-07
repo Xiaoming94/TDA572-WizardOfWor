@@ -1,6 +1,7 @@
 #include "direction.h"
 #include "moving_component.h"
 #include "moving_game_object.h"
+#include "map.h"
 
 class PlayerBehaviourComponent : public MovingComponent
 {
@@ -10,17 +11,16 @@ class PlayerBehaviourComponent : public MovingComponent
 public:
 	virtual ~PlayerBehaviourComponent() {}
 
-	virtual void Create(AvancezLib* system, MovingGameObject * go, std::set<GameObject*> * game_objects, ObjectPool<Projectile> * projectiles_pool)
+	virtual void Create(AvancezLib* system, MovingGameObject * go, std::set<GameObject*> * game_objects, Map * game_map ,ObjectPool<Projectile> * projectiles_pool)
 	{
-		MovingComponent::Create(system, go, game_objects);
+		MovingComponent::Create(system, go, game_objects, game_map);
 		this->projectiles_pool = projectiles_pool;
+		go -> horizontalPosition = game_map -> tileAt(mapW-1,mapH-1) -> horizontalPosition;
+		go -> verticalPosition = game_map -> tileAt(mapW-1,mapH-1) -> verticalPosition;
 	}
 
 	virtual void Init()
 	{
-		go->horizontalPosition = 320;
-		go->verticalPosition = 480 - 32;
-
 		time_fire_pressed = -10000.f;
 	}
 
@@ -61,18 +61,9 @@ public:
             go->verticalPosition += move;
         else
             go->horizontalPosition += move;
-
-		if (go->horizontalPosition > (640 - 32))
-			go->horizontalPosition = 640 - 32;
-
-		if (go->horizontalPosition < 0)
-			go->horizontalPosition = 0;
-
-        if (go->verticalPosition > (480 - 32))
-            go->verticalPosition = 480 - 32;
-
-        if (go->verticalPosition < 0)
-            go->verticalPosition = 0;
+    // Check maze boundaries;
+        Wall * current_tile = game_map -> tileAt(go -> horizontalPosition,go -> verticalPosition);
+        MovingComponent::CheckWallBound(current_tile);
 	}
 
 	// return true if enough time has passed from the previous Projectile

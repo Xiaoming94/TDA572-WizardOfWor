@@ -9,11 +9,6 @@ void Wall::Create(double x, double y, WallType wt)
     enabled = true; // Walls are always enabled
 }
 
-void Wall::setRender(WallRenderComponent * wcr)
-{
-    this -> wcr = wcr;
-}
-
 void Wall::Update()
 {
     GameObject::Update(0.1f);
@@ -22,6 +17,11 @@ void Wall::Update()
 void Wall::Destroy()
 {
     GameObject::Destroy();
+}
+
+WallType Wall::getWallType()
+{
+    return wt;
 }
 void WallRenderComponent::Create(AvancezLib* system, GameObject * go, std::set<GameObject*> * game_objects, WallType wt)
 {

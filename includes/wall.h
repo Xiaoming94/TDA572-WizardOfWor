@@ -40,13 +40,12 @@ class WallRenderComponent : public RenderComponent
 
 class Wall : public GameObject
 {
-    WallType wt;
-    WallRenderComponent * wcr;
+    WallType wt;;
     public:
-        void Create(double x, double y, WallType wt);
-        void setRender(WallRenderComponent * wcr);
+        void Create(double x, double y, WallType wt);;
         void Update();
         void Destroy();
+        WallType getWallType();
     protected:
 
     private:
