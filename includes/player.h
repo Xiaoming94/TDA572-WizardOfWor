@@ -28,13 +28,16 @@ public:
 	{
 		AvancezLib::KeyStatus keys;
 		system->getKeyStatus(keys);
-		if (keys.right)
+		//Check maze boundaries;
+		Wall * current_tile = game_map -> tileAt(go -> horizontalPosition, go -> verticalPosition);
+		PossibleDirections dirs = GetPossibleDirs(current_tile);
+		if (keys.right && dirs.right)
 			Move(dt * PLAYER_SPEED, Direction::RIGHT);
-		else if (keys.left)
+		else if (keys.left && dirs.left)
 			Move(-dt * PLAYER_SPEED, Direction::LEFT);
-        else if (keys.up)
+        else if (keys.up && dirs.up)
             Move(-dt * PLAYER_SPEED, Direction::UP);
-        else if (keys.down)
+        else if (keys.down && dirs.down)
             Move(dt * PLAYER_SPEED, Direction::DOWN);
 		if (keys.fire)
 		{
@@ -49,6 +52,7 @@ public:
 				}
 			}
 		}
+		CheckWallBound(current_tile);
 	}
 
 
@@ -61,9 +65,6 @@ public:
             go->verticalPosition += move;
         else
             go->horizontalPosition += move;
-    // Check maze boundaries;
-        Wall * current_tile = game_map -> tileAt(go -> horizontalPosition,go -> verticalPosition);
-        MovingComponent::CheckWallBound(current_tile);
 	}
 
 	// return true if enough time has passed from the previous Projectile
