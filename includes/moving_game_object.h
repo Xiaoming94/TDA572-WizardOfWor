@@ -9,8 +9,7 @@ class MovingGameObject : public GameObject
 {
     public:
         Direction getDirection();
-        void setDirection(Direction dir);
-        void setGameMap(Map * game_map);
+        void setDirection(Direction dir);;
     protected:
         Direction dir;
         Map * game_map;

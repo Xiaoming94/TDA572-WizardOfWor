@@ -99,7 +99,7 @@ public:
 		if (m == GAME_OVER)
 			game_over = true;
 
-		if (m == ALIEN_HIT)
+		if (m == ENEMY_HIT)
 			score += POINTS_PER_ALIEN * game_speed;
 	}
 
