@@ -72,6 +72,5 @@ void EnemyRenderComponent::Create (
 
 void EnemyRenderComponent::Update(float dt)
 {
-    SDL_Log("Enemy::Render");
     RenderComponent::Update(dt);
 }
