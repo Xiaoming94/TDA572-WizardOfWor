@@ -1,11 +1,57 @@
 #include "projectile.h"
 #include "constants.h"
+
+bool IsWallCollision(MovingGameObject * mgo, Wall * tile)
+{
+    WallType wt = tile -> getWallType();
+    switch(mgo -> getDirection())
+    {
+        case Direction::DOWN :
+
+            if(wt == WallType::BOTH_V)
+            {
+                return true;
+            }
+            if(wt == WallType::CORNER_BL || wt == WallType::CORNER_BR ||
+            wt == WallType::DOWN)
+            {
+                return mgo -> verticalPosition >= tile -> verticalPosition;
+            }
+            return false;
+        case Direction::LEFT :
+            if(wt == WallType::BOTH_H)
+                return true;
+            if(wt == WallType::CORNER_TL || wt == WallType::CORNER_BL ||
+               wt == WallType::LEFT)
+                return mgo -> horizontalPosition <= tile -> horizontalPosition;
+            return false;
+        case Direction::RIGHT :
+            if(wt == WallType::BOTH_H)
+                return true;
+            if(wt == WallType::CORNER_TR || wt == WallType::CORNER_BR ||
+               wt == WallType::RIGHT)
+                return mgo -> horizontalPosition >= tile -> horizontalPosition;
+            return false;
+        case Direction::UP :
+            if(wt == WallType::BOTH_V)
+                return true;
+            if(wt == WallType::CORNER_TL || wt == WallType::CORNER_TR ||
+               wt == WallType::UP)
+                return mgo -> verticalPosition <= tile -> verticalPosition;
+            return false;
+        default : return false;
+    }
+}
+
 void ProjectileBehaviourComponent::Update(float dt){
     this -> Update(2*dt,mgo -> getDirection());
 }
 
 
 void ProjectileBehaviourComponent::Update(float dt, Direction dir){
+
+    Wall * tile = this -> game_map -> tileAt(go->horizontalPosition,go->verticalPosition);
+
     switch (dir)
     {
     case Direction::UP:
@@ -22,12 +68,15 @@ void ProjectileBehaviourComponent::Update(float dt, Direction dir){
         break;
     default: break;
     }
-    //Check out of bounds
-    if(go->horizontalPosition > 480 ||
-       go->horizontalPosition < 0 ||
-       go->verticalPosition > 640 ||
-       go->verticalPosition < 0)
-        go->enabled = false;
+
+    if(IsWallCollision(this -> mgo, tile))
+    {
+
+        SDL_Log("Collision with Wall");
+        mgo -> enabled = false;
+
+    }
+
 }
 
 void Projectile::Init(double xPo, double yPo, Direction dir)
@@ -47,4 +96,5 @@ void Projectile::Receive(Message m)
         SDL_Log("Projectile::HIT");
     }
 }
+
 
