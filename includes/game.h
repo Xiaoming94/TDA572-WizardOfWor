@@ -2,6 +2,7 @@
 #define PROJECTILE_SPRITE "assets/rocket.bmp"
 
 #include "map.h"
+
 bool change_direction = false;
 
 class Game : public GameObject
@@ -33,12 +34,23 @@ public:
 		player_behaviour->Create(system, player, &game_objects, game_map ,&projectiles_pool);
 		RenderComponent * player_render = new RenderComponent();
 		player_render->Create(system, player, &game_objects, PLAYER1_SPRITE );
-
 		player->Create();
 		player->AddComponent(player_behaviour);
 		player->AddComponent(player_render);
 		player->AddReceiver(this);
 		game_objects.insert(player);
+
+        Enemy * demoEnemy = new Enemy();
+        demoEnemy -> Create(EnemyType::BURWOR);
+        EnemyBehaviourComponent * de_behaviour = new EnemyBehaviourComponent();
+        de_behaviour -> Create(system, demoEnemy, &game_objects, game_map);
+        EnemyRenderComponent * erc = new EnemyRenderComponent();
+        erc -> Create(system, demoEnemy, &game_objects, EnemyType::BURWOR);
+        demoEnemy -> AddComponent(de_behaviour);
+        demoEnemy -> AddComponent(erc);
+        demoEnemy -> AddReceiver(this);
+        demoEnemy -> Init();
+        game_objects.insert(demoEnemy);
 
 		projectiles_pool.Create(30);
 		for (auto projectile = projectiles_pool.pool.begin(); projectile != projectiles_pool.pool.end(); projectile++)

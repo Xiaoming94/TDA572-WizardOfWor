@@ -16,6 +16,7 @@ float game_speed = 1.f;
 
 #include "projectile.h"
 #include "player.h"
+#include "enemy.h"
 
 #include "game.h"
 

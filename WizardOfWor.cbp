@@ -49,6 +49,7 @@
 		<Unit filename="includes/component.h" />
 		<Unit filename="includes/constants.h" />
 		<Unit filename="includes/direction.h" />
+		<Unit filename="includes/enemy.h" />
 		<Unit filename="includes/game.h" />
 		<Unit filename="includes/game_object.h" />
 		<Unit filename="includes/game_stage.h" />
@@ -63,6 +64,7 @@
 		<Unit filename="includes/wall.h" />
 		<Unit filename="src/avancezlib.cpp" />
 		<Unit filename="src/component.cpp" />
+		<Unit filename="src/enemy.cpp" />
 		<Unit filename="src/game_object.cpp" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/map.cpp" />
