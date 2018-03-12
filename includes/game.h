@@ -51,17 +51,22 @@ public:
         demoEnemy -> AddReceiver(this);
         demoEnemy -> Init();
         game_objects.insert(demoEnemy);
-
+        ObjectPool<GameObject> * proj_coll_objects = new ObjectPool<GameObject>();
+        proj_coll_objects -> Create(0);
+        proj_coll_objects -> pool.push_back(demoEnemy);
 		projectiles_pool.Create(30);
 		for (auto projectile = projectiles_pool.pool.begin(); projectile != projectiles_pool.pool.end(); projectile++)
 		{
 			ProjectileBehaviourComponent * behaviour = new ProjectileBehaviourComponent();
 			behaviour->Create(system, *projectile, &game_objects, game_map);
 			RenderComponent * render = new RenderComponent();
+			CollideComponent * cc = new CollideComponent();
+			cc->Create(system,*projectile, &game_objects, proj_coll_objects);
 			render->Create(system, *projectile, &game_objects, PROJECTILE_SPRITE);
 			(*projectile)->Create();
 			(*projectile)->AddComponent(behaviour);
 			(*projectile)->AddComponent(render);
+			(*projectile)->AddComponent(cc);
 		}
 
 
