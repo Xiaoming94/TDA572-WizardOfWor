@@ -36,6 +36,7 @@ class Enemy : public MovingGameObject
         void Create(EnemyType et);
         void SetEnemyType(EnemyType et);
         EnemyType GetEnemyType();
+        void Receive(Message m);
 };
 
 class EnemyRenderComponent : public RenderComponent

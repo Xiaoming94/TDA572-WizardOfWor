@@ -37,6 +37,13 @@ EnemyType Enemy::GetEnemyType()
     return this -> et;
 }
 
+void Enemy::Receive(Message m)
+{
+    if(enabled && m == HIT)
+        SDL_Log("I am HIT");
+        enabled = false;
+}
+
 void EnemyRenderComponent::Create (
             AvancezLib* system,
             GameObject * go,
