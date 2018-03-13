@@ -1,4 +1,3 @@
-#define PLAYER1_SPRITE "assets/WorriorGold.bmp"
 #define PROJECTILE_SPRITE "assets/rocket.bmp"
 
 #include "map.h"
@@ -13,9 +12,11 @@ class Game : public GameObject
 
 	ObjectPool<Projectile> projectiles_pool;	// used to instantiate projectiles
 
-	Player * player;
+	Player * player1;
+	Player * player2;
 
-	Sprite * life_sprite;
+	Sprite * life_sprite1;
+	Sprite * life_sprite2;
 	bool game_over;
 
 	unsigned int score = 0;
@@ -29,16 +30,26 @@ public:
 
 		this->system = system;
         game_map = create_standard_map(system);
-		player = new Player();
-		PlayerBehaviourComponent * player_behaviour = new PlayerBehaviourComponent();
-		player_behaviour->Create(system, player, &game_objects, game_map ,&projectiles_pool, true);
-		RenderComponent * player_render = new RenderComponent();
-		player_render->Create(system, player, &game_objects, PLAYER1_SPRITE );
-		player->Create();
-		player->AddComponent(player_behaviour);
-		player->AddComponent(player_render);
-		player->AddReceiver(this);
-		game_objects.insert(player);
+		player1 = new Player();
+		PlayerBehaviourComponent * player1_behaviour = new PlayerBehaviourComponent();
+		player1_behaviour->Create(system, player1, &game_objects, game_map ,&projectiles_pool, true);
+		PlayerRenderComponent * player1_render = new PlayerRenderComponent();
+		player1_render->Create(system, player1, &game_objects, true );
+		player1->Create();
+		player1->AddComponent(player1_behaviour);
+		player1->AddComponent(player1_render);
+		player1->AddReceiver(this);
+		game_objects.insert(player1);
+
+        player2 = new Player();
+		PlayerBehaviourComponent * player2_behaviour = new PlayerBehaviourComponent();
+		player2_behaviour->Create(system, player2, &game_objects, game_map ,&projectiles_pool, false);
+		PlayerRenderComponent * player2_render = new PlayerRenderComponent();
+		player2_render->Create(system, player2, &game_objects, false);
+		player2->Create();
+		player2->AddComponent(player2_behaviour);
+		player2->AddComponent(player2_render);
+        game_objects.insert(player2);
 
         Enemy * demoEnemy = new Enemy();
         demoEnemy -> Create(EnemyType::BURWOR);
@@ -70,14 +81,16 @@ public:
 		}
 
 
-		life_sprite = system->createSprite(PLAYER1_SPRITE);
+		life_sprite1 = system->createSprite(PLAYER1_SPRITE);
+		life_sprite2 = system->createSprite(PLAYER2_SPRITE);
 		score = 0;
 
 	}
 
 	virtual void Init()
 	{
-		player->Init();
+		player1->Init();
+        player2->Init();
 
 		enabled = true;
 		game_over = false;
@@ -92,7 +105,7 @@ public:
 		for (auto go = game_objects.begin(); go != game_objects.end(); go++)
 			(*go)->Update(dt);
 
-        score = player -> GetScore();
+        score = player1 -> GetScore();
 	}
 
 	virtual void Draw()
@@ -103,8 +116,8 @@ public:
 		sprintf(msg, "bonus: %.1fX", game_speed);
 		system->drawText(510, 32, msg);
 
-		for (int i = 0; i < player->lives; i++)
-			life_sprite->draw(i*36+20, 16);
+		for (int i = 0; i < player1->lives; i++)
+			life_sprite1->draw(i*36+20, 16);
 
 		if (IsGameOver())
 		{
@@ -137,10 +150,11 @@ public:
 		for (auto go = game_objects.begin(); go != game_objects.end(); go++)
 			(*go)->Destroy();
 
-		life_sprite->destroy();
+		life_sprite1->destroy();
 
 		projectiles_pool.Destroy();
-		delete player;
+		delete player1;
+		delete player2;
 		delete game_map;
 	}
 };

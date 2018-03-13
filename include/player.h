@@ -3,6 +3,9 @@
 #include "collidable.h"
 #include "map.h"
 
+#define PLAYER1_SPRITE "assets/WorriorGold.bmp"
+#define PLAYER2_SPRITE "assets/WorriorBlue.bmp"
+
 class PlayerBehaviourComponent : public MovingComponent
 {
 	float time_fire_pressed;	// time from the last time the fire button was pressed
@@ -15,8 +18,17 @@ public:
 	{
 		MovingComponent::Create(system, go, game_objects, game_map);
 		this->projectiles_pool = projectiles_pool;
-		go -> horizontalPosition = game_map -> tileAt(mapW-1,mapH-1) -> horizontalPosition;
-		go -> verticalPosition = game_map -> tileAt(mapW-1,mapH-1) -> verticalPosition;
+		if (isPlayer1)
+        {
+            go -> horizontalPosition = game_map -> tileAt(mapW-1,mapH-1) -> horizontalPosition;
+            go -> verticalPosition = game_map -> tileAt(mapW-1,mapH-1) -> verticalPosition;
+		}
+		else
+		{
+            go -> horizontalPosition = game_map -> tileAt(0,mapH-1) -> horizontalPosition;
+            go -> verticalPosition = game_map -> tileAt(0,mapH-1) -> verticalPosition;
+		}
+
 		this -> isPlayer1 = isPlayer1;
 	}
 
@@ -81,6 +93,23 @@ private :
     bool isPlayer1;
 };
 
+class PlayerRenderComponent : public RenderComponent
+{
+    public:
+        void Create(
+            AvancezLib * system,
+            GameObject * go,
+            std::set<GameObject*>* game_objects,
+            bool isPlayer1
+        )
+        {
+            if(isPlayer1)
+                RenderComponent::Create(system, go, game_objects, PLAYER1_SPRITE);
+            else
+                RenderComponent::Create(system, go, game_objects, PLAYER2_SPRITE);
+        }
+
+};
 
 // the main player
 class Player : public Collidable
