@@ -95,6 +95,11 @@ void Projectile::Receive(Message m)
         enabled = false;
         SDL_Log("Projectile::HIT");
     }
+    if(enabled && m == HIT_BURWOR)
+    {
+        enabled = false;
+        SDL_Log("I hit a burwor");
+    }
 }
 
 

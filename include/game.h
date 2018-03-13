@@ -51,7 +51,7 @@ public:
         demoEnemy -> AddReceiver(this);
         demoEnemy -> Init();
         game_objects.insert(demoEnemy);
-        ObjectPool<GameObject> * proj_coll_objects = new ObjectPool<GameObject>();
+        ObjectPool<Collidable> * proj_coll_objects = new ObjectPool<Collidable>();
         proj_coll_objects -> Create(0);
         proj_coll_objects -> pool.push_back(demoEnemy);
 		projectiles_pool.Create(30);
@@ -116,7 +116,7 @@ public:
 		if (m == GAME_OVER)
 			game_over = true;
 
-		if (m == ENEMY_HIT)
+		if (m == HIT_BURWOR)
 			score += POINTS_PER_ALIEN * game_speed;
 	}
 

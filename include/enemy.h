@@ -2,7 +2,7 @@
 #define ENEMY_H
 
 #include "moving_game_object.h"
-#include "moving_component.h"
+#include "collidable.h"
 
 #define BURWOR_SPRITE  "assets/Burwor.bmp"
 #define GARWOR_SPRITE  "assets/Garwor.bmp"
@@ -29,7 +29,7 @@ class EnemyBehaviourComponent : public Component
         void Update(float dt) {};
 };
 
-class Enemy : public MovingGameObject
+class Enemy : public Collidable
 {
     EnemyType et;
     public:
@@ -37,6 +37,7 @@ class Enemy : public MovingGameObject
         void SetEnemyType(EnemyType et);
         EnemyType GetEnemyType();
         void Receive(Message m);
+        Message collide();
 };
 
 class EnemyRenderComponent : public RenderComponent

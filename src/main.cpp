@@ -12,7 +12,7 @@
 float game_speed = 1.f;
 #include "component.h"
 #include "game_object.h"
-
+#include "collide_component.h"
 
 #include "projectile.h"
 #include "player.h"

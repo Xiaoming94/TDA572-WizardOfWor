@@ -44,6 +44,11 @@ void Enemy::Receive(Message m)
         enabled = false;
 }
 
+Message Enemy::collide()
+{
+    return Message::HIT_BURWOR;
+}
+
 void EnemyRenderComponent::Create (
             AvancezLib* system,
             GameObject * go,

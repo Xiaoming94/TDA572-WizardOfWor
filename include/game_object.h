@@ -4,7 +4,7 @@
 // GameObject represents objects which moves are drawn
 #include <vector>
 
-enum Message { HIT, ENEMY_HIT, GAME_OVER, LEVEL_WIN, NO_MSG, PLAYER_HIT };
+enum Message { HIT, HIT_BURWOR, GAME_OVER, LEVEL_WIN, NO_MSG, PLAYER_HIT };
 
 class Component;
 

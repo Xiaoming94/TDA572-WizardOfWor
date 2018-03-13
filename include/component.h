@@ -40,14 +40,4 @@ public:
 	Sprite * GetSprite() { return sprite; }
 };
 
-
-class CollideComponent : public Component
-{
-	ObjectPool<GameObject> * coll_objects; // collision will be tested with these objects
-
-public:
-	virtual void Create(AvancezLib* system, GameObject * go, std::set<GameObject*> * game_objects, ObjectPool<GameObject> * coll_objects);
-	virtual void Update(float dt);
-};
-
 #endif // COMPONENT_H
