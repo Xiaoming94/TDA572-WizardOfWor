@@ -85,7 +85,7 @@ bool AvancezLib::update()
 			case SDLK_q:
 				go_on = false;
 				break;
-			case SDLK_SPACE:
+			case SDLK_c:
 				player1keys.fire = true;
 				break;
 			case SDLK_a:
@@ -100,6 +100,21 @@ bool AvancezLib::update()
             case SDLK_s:
                 player1keys.down = true;
                 break;
+			case SDLK_PERIOD:
+				player2keys.fire = true;
+				break;
+			case SDLK_j:
+				player2keys.left = true;
+				break;
+			case SDLK_l:
+				player2keys.right = true;
+				break;
+            case SDLK_i:
+                player2keys.up = true;
+                break;
+            case SDLK_k:
+                player2keys.down = true;
+                break;
 
 			}
 		}
@@ -108,7 +123,7 @@ bool AvancezLib::update()
 		{
 			switch (event.key.keysym.sym)
 			{
-			case SDLK_SPACE:
+			case SDLK_c:
 				player1keys.fire = false;
 				break;
 			case SDLK_a:
@@ -122,6 +137,21 @@ bool AvancezLib::update()
                 break;
             case SDLK_s:
                 player1keys.down = false;
+                break;
+            case SDLK_PERIOD:
+				player2keys.fire = false;
+				break;
+			case SDLK_j:
+				player2keys.left = false;
+				break;
+			case SDLK_l:
+				player2keys.right = false;
+				break;
+            case SDLK_i:
+                player2keys.up = false;
+                break;
+            case SDLK_k:
+                player2keys.down = false;
                 break;
 			}
 		}
