@@ -11,12 +11,13 @@ class PlayerBehaviourComponent : public MovingComponent
 public:
 	virtual ~PlayerBehaviourComponent() {}
 
-	virtual void Create(AvancezLib* system, MovingGameObject * go, std::set<GameObject*> * game_objects, Map * game_map ,ObjectPool<Projectile> * projectiles_pool)
+	virtual void Create(AvancezLib* system, MovingGameObject * go, std::set<GameObject*> * game_objects, Map * game_map ,ObjectPool<Projectile> * projectiles_pool, bool isPlayer1)
 	{
 		MovingComponent::Create(system, go, game_objects, game_map);
 		this->projectiles_pool = projectiles_pool;
 		go -> horizontalPosition = game_map -> tileAt(mapW-1,mapH-1) -> horizontalPosition;
 		go -> verticalPosition = game_map -> tileAt(mapW-1,mapH-1) -> verticalPosition;
+		this -> isPlayer1 = isPlayer1;
 	}
 
 	virtual void Init()
@@ -26,8 +27,7 @@ public:
 
 	virtual void Update(float dt)
 	{
-		AvancezLib::KeyStatus keys;
-		system->getKeyStatus(keys);
+		KeyStatus keys = system->getKeyStatus(isPlayer1);
 		//Check maze boundaries;
 		Wall * current_tile = game_map -> tileAt(go -> horizontalPosition, go -> verticalPosition);
 		PossibleDirections dirs = GetPossibleDirs(current_tile);
@@ -54,8 +54,6 @@ public:
 		}
 		CheckWallBound(current_tile);
 	}
-
-
 	// move the player left or right
 	// param move depends on the time, so the player moves always at the same speed on any computer
 	void Move(float move, Direction dir)
@@ -79,6 +77,8 @@ public:
 		SDL_Log("fire!");
 		return true;
 	}
+private :
+    bool isPlayer1;
 };
 
 

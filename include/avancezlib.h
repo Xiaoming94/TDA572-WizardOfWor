@@ -4,6 +4,15 @@
 #include "SDL.h"
 #include "SDL_ttf.h"
 
+typedef struct KeyStatus
+	{
+		bool fire = false; // space
+		bool left = false; // left arrow
+		bool up = false;
+		bool down = false;
+		bool right = false; // right arrow
+	};
+
 class Sprite
 {
 	SDL_Renderer * renderer;
@@ -47,17 +56,8 @@ public:
 	// Return the total time spent in the game, in seconds.
 	float getElapsedTime();
 
-	struct KeyStatus
-	{
-		bool fire = false; // space
-		bool left = false; // left arrow
-		bool up = false;
-		bool down = false;
-		bool right = false; // right arrow
-	} player1keys, player2keys;
-
 	// Returns the keyboard status. If a flag is set, the corresponding key is being held down.
-	void getKeyStatus(KeyStatus& keys);
+	KeyStatus getKeyStatus(bool isPlayer1);
 
 private:
 	SDL_Window * window;
@@ -65,7 +65,7 @@ private:
 
 	TTF_Font* font;
 
-	KeyStatus key;
+	KeyStatus player1keys, player2keys;
 };
 
 

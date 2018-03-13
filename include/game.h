@@ -31,7 +31,7 @@ public:
         game_map = create_standard_map(system);
 		player = new Player();
 		PlayerBehaviourComponent * player_behaviour = new PlayerBehaviourComponent();
-		player_behaviour->Create(system, player, &game_objects, game_map ,&projectiles_pool);
+		player_behaviour->Create(system, player, &game_objects, game_map ,&projectiles_pool, true);
 		RenderComponent * player_render = new RenderComponent();
 		player_render->Create(system, player, &game_objects, PLAYER1_SPRITE );
 		player->Create();
