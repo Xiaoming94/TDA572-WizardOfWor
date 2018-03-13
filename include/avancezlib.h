@@ -54,7 +54,7 @@ public:
 		bool up = false;
 		bool down = false;
 		bool right = false; // right arrow
-	};
+	} player1keys, player2keys;
 
 	// Returns the keyboard status. If a flag is set, the corresponding key is being held down.
 	void getKeyStatus(KeyStatus& keys);
