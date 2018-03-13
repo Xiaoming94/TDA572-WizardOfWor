@@ -10,7 +10,6 @@ const unsigned int	NUM_LIVES = 2;
 
 const unsigned int	MAX_NUM_ROCKETS = 32;
 const unsigned int	MAX_NUM_BOMBS = 32;
-const unsigned int	POINTS_PER_ALIEN = 100;
 const float			FIRE_TIME_INTERVAL = .5f;
 const float			BOMB_TIME_INTERVAL = 1.25f;
 const float			PLAYER_SPEED = 160.0f;
