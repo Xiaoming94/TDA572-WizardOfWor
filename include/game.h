@@ -91,6 +91,8 @@ public:
 
 		for (auto go = game_objects.begin(); go != game_objects.end(); go++)
 			(*go)->Update(dt);
+
+        score = player -> GetScore();
 	}
 
 	virtual void Draw()
@@ -113,11 +115,8 @@ public:
 
 	virtual void Receive(Message m)
 	{
-		if (m == GAME_OVER)
-			game_over = true;
+		SDL_Log("Did I got called :O ");
 
-		if (m == HIT_BURWOR)
-			score += POINTS_PER_ALIEN * game_speed;
 	}
 
 

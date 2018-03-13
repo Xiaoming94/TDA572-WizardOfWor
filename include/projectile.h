@@ -15,7 +15,8 @@ public:
 class Projectile : public MovingGameObject
 {
 public:
-    virtual void Init(double xPo,double yPo,Direction dir);
+    MovingGameObject * owner;
+    virtual void Init(double xPo,double yPo,Direction dir, MovingGameObject * owner);
     virtual void Receive(Message m);
 };
 #endif // PROJECTILE_H

@@ -79,27 +79,19 @@ void ProjectileBehaviourComponent::Update(float dt, Direction dir){
 
 }
 
-void Projectile::Init(double xPo, double yPo, Direction dir)
+void Projectile::Init(double xPo, double yPo, Direction dir, MovingGameObject * owner)
 {
     SDL_Log("Projectile::Init");
     GameObject::Init();
     horizontalPosition = xPo;
     verticalPosition = yPo;
     this -> dir = dir;
+    this -> owner = owner;
 }
 
 void Projectile::Receive(Message m)
 {
-    if(enabled && m == HIT)
-    {
-        enabled = false;
-        SDL_Log("Projectile::HIT");
-    }
-    if(enabled && m == HIT_BURWOR)
-    {
-        enabled = false;
-        SDL_Log("I hit a burwor");
-    }
+    owner -> Receive(m);
 }
 
 

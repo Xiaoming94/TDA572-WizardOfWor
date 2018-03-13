@@ -1,6 +1,6 @@
 #include "direction.h"
 #include "moving_component.h"
-#include "moving_game_object.h"
+#include "collidable.h"
 #include "map.h"
 
 class PlayerBehaviourComponent : public MovingComponent
@@ -47,7 +47,7 @@ public:
 				Projectile * projectile = projectiles_pool->FirstAvailable();
 				if (projectile != NULL)	// Projectile is NULL is the object pool can not provide an object
 				{
-					projectile->Init(mgo->horizontalPosition,mgo->verticalPosition,mgo -> getDirection());
+					projectile->Init(mgo->horizontalPosition,mgo->verticalPosition,mgo -> getDirection(),this -> mgo);
 					game_objects->insert(projectile);
 				}
 			}
@@ -83,10 +83,11 @@ public:
 
 
 // the main player
-class Player : public MovingGameObject
+class Player : public Collidable
 {
 public:
 
+    int score = 0;
 	int lives;	// it's game over when goes below zero
 
 	virtual ~Player()	{		SDL_Log("Player::~Player");	}
@@ -100,14 +101,9 @@ public:
 
 	virtual void Receive(Message m)
 	{
-		if (m == HIT)
-		{
-			SDL_Log("Player::Hit!");
-			RemoveLife();
+		if (m == HIT_BURWOR)
+            score += 100;
 
-			if (lives < 0)
-				Send(GAME_OVER);
-		}
 	}
 
 	void RemoveLife()
@@ -115,4 +111,9 @@ public:
 		lives--;
 		SDL_Log("remaining lives %d", lives);
 	}
+
+	int GetScore()
+    {
+        return this ->  score;
+    }
 };
