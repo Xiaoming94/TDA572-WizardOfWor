@@ -110,14 +110,18 @@ public:
 
 	virtual void Draw()
 	{
+	    int lifeSpriteY = 416;
 		char msg[1024];
 		sprintf(msg, "%07d", Score());
 		system->drawText(300, 32, msg);
 		sprintf(msg, "bonus: %.1fX", game_speed);
 		system->drawText(510, 32, msg);
 
-		for (int i = 0; i < player1->lives; i++)
-			life_sprite1->draw(i*36+20, 16);
+		for (int i = player1->lives; i > 0; i--)
+			life_sprite1->draw(i*36 + 500, lifeSpriteY);
+
+        for (int i = 0; i < player2->lives; i++)
+            life_sprite2->draw(i*36 + 32, lifeSpriteY);
 
 		if (IsGameOver())
 		{
