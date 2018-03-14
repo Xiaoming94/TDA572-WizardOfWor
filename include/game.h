@@ -19,8 +19,11 @@ class Game : public GameObject
 	Sprite * life_sprite2;
 	bool game_over;
 
-	unsigned int score = 0;
+	const bool isPlayer1 = true;
 
+	unsigned int scorep1 = 0;
+
+    unsigned int scorep2 = 0;
     Map * game_map;
 public:
 
@@ -32,9 +35,9 @@ public:
         game_map = create_standard_map(system);
 		player1 = new Player();
 		PlayerBehaviourComponent * player1_behaviour = new PlayerBehaviourComponent();
-		player1_behaviour->Create(system, player1, &game_objects, game_map ,&projectiles_pool, true);
+		player1_behaviour->Create(system, player1, &game_objects, game_map ,&projectiles_pool, isPlayer1);
 		PlayerRenderComponent * player1_render = new PlayerRenderComponent();
-		player1_render->Create(system, player1, &game_objects, true );
+		player1_render->Create(system, player1, &game_objects, isPlayer1 );
 		player1->Create();
 		player1->AddComponent(player1_behaviour);
 		player1->AddComponent(player1_render);
@@ -43,9 +46,9 @@ public:
 
         player2 = new Player();
 		PlayerBehaviourComponent * player2_behaviour = new PlayerBehaviourComponent();
-		player2_behaviour->Create(system, player2, &game_objects, game_map ,&projectiles_pool, false);
+		player2_behaviour->Create(system, player2, &game_objects, game_map ,&projectiles_pool, !isPlayer1);
 		PlayerRenderComponent * player2_render = new PlayerRenderComponent();
-		player2_render->Create(system, player2, &game_objects, false);
+		player2_render->Create(system, player2, &game_objects, !isPlayer1);
 		player2->Create();
 		player2->AddComponent(player2_behaviour);
 		player2->AddComponent(player2_render);
@@ -83,7 +86,8 @@ public:
 
 		life_sprite1 = system->createSprite(PLAYER1_SPRITE);
 		life_sprite2 = system->createSprite(PLAYER2_SPRITE);
-		score = 0;
+		scorep1 = 0;
+		scorep2 = 0;
 
 	}
 
@@ -105,15 +109,18 @@ public:
 		for (auto go = game_objects.begin(); go != game_objects.end(); go++)
 			(*go)->Update(dt);
 
-        score = player1 -> GetScore();
+        scorep1 = player1 -> GetScore();
+        scorep2 = player2 -> GetScore();
 	}
 
 	virtual void Draw()
 	{
 	    int lifeSpriteY = 416;
 		char msg[1024];
-		sprintf(msg, "%07d", Score());
-		system->drawText(300, 32, msg);
+		sprintf(msg, "%06d", Score(isPlayer1));
+		system->drawText(530, 384, msg);
+		sprintf(msg, "%06d", Score(!isPlayer1));
+		system->drawText(64, 384, msg);
 		sprintf(msg, "bonus: %.1fX", game_speed);
 		system->drawText(510, 32, msg);
 
@@ -142,9 +149,9 @@ public:
 		return game_over;
 	}
 
-	unsigned int Score()
+	unsigned int Score(bool isPlayer1)
 	{
-		return score;
+		return isPlayer1 ? scorep1 : scorep2;
 	}
 
 	virtual void Destroy()
