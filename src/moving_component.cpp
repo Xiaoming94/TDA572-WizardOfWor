@@ -2,7 +2,7 @@
 #include <iostream>
 
 // Helper function
-bool isDirectionValid(MovingGameObject * go, float dt, float speed, Direction dir, Map * m)
+bool isDirectionValid(MovingGameObject * go, float move, Direction dir, Map * m)
 {
     if (dir == Direction::NONE)
         return true;
@@ -11,16 +11,16 @@ bool isDirectionValid(MovingGameObject * go, float dt, float speed, Direction di
     switch(dir)
     {
         case Direction::LEFT :
-            newHPos = newHPos - dt * speed;
+            newHPos = newHPos - move;
             break;
         case Direction::UP :
-            newVPos = newVPos - dt * speed;
+            newVPos = newVPos - move;
             break;
         case Direction::RIGHT :
-            newHPos = newHPos + dt * speed;
+            newHPos = newHPos + move;
             break;
         case Direction::DOWN :
-            newVPos = newVPos + dt * speed;
+            newVPos = newVPos + move;
             break;
         default :
             break;
@@ -38,12 +38,12 @@ void MovingComponent::Create(AvancezLib* system,
     this -> game_map = game_map;
 }
 
-PossibleDirections MovingComponent::GetPossibleDirs(float dt, float speed)
+PossibleDirections MovingComponent::GetPossibleDirs(float move)
 {
     PossibleDirections dir;
-    dir.left = isDirectionValid(this -> mgo, dt, speed, Direction::LEFT, game_map);
-    dir.up = isDirectionValid(this -> mgo, dt, speed, Direction::UP, game_map);
-    dir.right = isDirectionValid(this -> mgo, dt, speed, Direction::RIGHT, game_map);
-    dir.down = isDirectionValid(this -> mgo, dt, speed, Direction::DOWN, game_map);
+    dir.left = isDirectionValid(this -> mgo, move, Direction::LEFT, game_map);
+    dir.up = isDirectionValid(this -> mgo, move, Direction::UP, game_map);
+    dir.right = isDirectionValid(this -> mgo, move , Direction::RIGHT, game_map);
+    dir.down = isDirectionValid(this -> mgo, move, Direction::DOWN, game_map);
     return dir;
 }

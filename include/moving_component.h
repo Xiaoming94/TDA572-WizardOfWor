@@ -22,7 +22,7 @@ class MovingComponent : public Component
                     MovingGameObject * mgo,
                     std::set<GameObject*> * game_objects,
                     Map * game_map);
-        PossibleDirections GetPossibleDirs(float dt, float speed);
+        PossibleDirections GetPossibleDirs(float move);
         Map * game_map;
 };
 
