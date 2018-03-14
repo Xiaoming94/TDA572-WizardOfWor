@@ -24,7 +24,7 @@ Direction decide_direction(MovingGameObject * mgo, Wall * tile, Direction sought
         case Direction::UP :
         {
             if(wt == WallType::CORNER_TL || wt == WallType::CORNER_TR ||
-               wt == WallType::UP || diffY == 0.0)
+               wt == WallType::UP || wt == WallType::BOTH_V ||diffY == 0.0)
                return Direction::NONE;
             else
             {
@@ -38,7 +38,7 @@ Direction decide_direction(MovingGameObject * mgo, Wall * tile, Direction sought
 
         case Direction::LEFT :
             if(wt == WallType::CORNER_TL || wt == WallType::CORNER_BL ||
-               wt == WallType::LEFT || diffX == 0.0)
+               wt == WallType::LEFT || wt == WallType::BOTH_H ||diffX == 0.0)
                 return Direction::NONE;
             else
             {
@@ -51,7 +51,7 @@ Direction decide_direction(MovingGameObject * mgo, Wall * tile, Direction sought
 
         case Direction::RIGHT :
             if(wt == WallType::CORNER_TR || wt == WallType::CORNER_BR ||
-               wt == WallType::RIGHT || diffX == 0.0)
+               wt == WallType::RIGHT || wt == WallType::BOTH_H || diffX == 0.0)
                 return Direction::NONE;
             else
             {
@@ -63,7 +63,7 @@ Direction decide_direction(MovingGameObject * mgo, Wall * tile, Direction sought
 
         case Direction::DOWN :
             if(wt == WallType::CORNER_BL || wt == WallType::CORNER_BR ||
-               wt == WallType::DOWN || diffY == 0.0)
+               wt == WallType::DOWN || wt == WallType::BOTH_V || diffY == 0.0)
                return Direction::NONE;
             else
             {
