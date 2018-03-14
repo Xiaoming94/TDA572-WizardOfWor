@@ -2,10 +2,75 @@
 #include "moving_component.h"
 #include "collidable.h"
 #include "map.h"
-#include <iostream>
 
 #define PLAYER1_SPRITE "assets/WorriorGold.bmp"
 #define PLAYER2_SPRITE "assets/WorriorBlue.bmp"
+
+Direction decide_direction(MovingGameObject * mgo, Wall * tile, Direction soughtDir)
+{
+    WallType wt = tile -> getWallType();
+    double diffX = mgo -> horizontalPosition - tile -> horizontalPosition;
+    double diffY = mgo -> verticalPosition - tile -> verticalPosition;
+    switch(soughtDir)
+    {
+        case Direction::UP :
+        {
+            if(wt == WallType::CORNER_TL || wt == WallType::CORNER_TR ||
+               wt == WallType::UP || diffY == 0.0)
+               return Direction::NONE;
+            else
+            {
+                if(diffX > 0.0)
+                    return Direction::LEFT;
+                else
+                    return Direction::RIGHT;
+            }
+            break;
+        }
+
+        case Direction::LEFT :
+            if(wt == WallType::CORNER_TL || wt == WallType::CORNER_BL ||
+               wt == WallType::LEFT || diffX == 0.0)
+                return Direction::NONE;
+            else
+            {
+                if(diffY > 0.0)
+                    return Direction::UP;
+                else
+                    return Direction::DOWN;
+            }
+            break;
+
+        case Direction::RIGHT :
+            if(wt == WallType::CORNER_TR || wt == WallType::CORNER_BR ||
+               wt == WallType::RIGHT || diffX == 0.0)
+                return Direction::NONE;
+            else
+            {
+                if(diffY > 0.0)
+                    return Direction::UP;
+                else
+                    return Direction::DOWN;
+            }
+
+        case Direction::DOWN :
+            if(wt == WallType::CORNER_BL || wt == WallType::CORNER_BR ||
+               wt == WallType::DOWN || diffY == 0.0)
+               return Direction::NONE;
+            else
+            {
+                if(diffX > 0.0)
+                    return Direction::LEFT;
+                else
+                    return Direction::RIGHT;
+            }
+            break;
+        default :
+            return Direction::NONE;
+    }
+
+
+}
 
 class PlayerBehaviourComponent : public MovingComponent
 {
@@ -40,18 +105,64 @@ public:
 
 	virtual void Update(float dt)
 	{
-
+        float posChange = dt * PLAYER_SPEED;
 		KeyStatus keys = system->getKeyStatus(isPlayer1);
 		//Check maze boundaries;
-		PossibleDirections dirs = GetPossibleDirs(dt,PLAYER_SPEED);
-		if (keys.right && dirs.right)
-			Move(dt * PLAYER_SPEED, Direction::RIGHT);
-		else if (keys.left && dirs.left)
-			Move(-dt * PLAYER_SPEED, Direction::LEFT);
-        else if (keys.up && dirs.up)
-            Move(-dt * PLAYER_SPEED, Direction::UP);
-        else if (keys.down && dirs.down)
-            Move(dt * PLAYER_SPEED, Direction::DOWN);
+		PossibleDirections dirs = GetPossibleDirs(posChange);
+		Wall * current_tile = game_map -> tileAt(mgo -> horizontalPosition, mgo -> verticalPosition);
+		// On Keypress, check if direction is available,
+		// Rotate once counter clockwise if not
+		if (keys.right)
+		{
+            if(dirs.right)
+                Move(posChange, Direction::RIGHT);
+            else
+            {
+                Direction newDir = decide_direction(mgo, current_tile, Direction::RIGHT);
+                Move(posChange, newDir);
+            }
+		}
+
+		else if (keys.left)
+		{
+            if(dirs.left)
+                Move(posChange, Direction::LEFT);
+            else
+            {
+
+                Direction newDir = decide_direction(mgo, current_tile, Direction::LEFT);
+                Move(posChange, newDir);
+
+            }
+		}
+
+        else if (keys.up)
+		{
+            if(dirs.up)
+                Move(posChange, Direction::UP);
+            else
+            {
+
+                Direction newDir = decide_direction(mgo, current_tile, Direction::UP);
+                Move(posChange, newDir);
+
+            }
+
+		}
+        else if (keys.down)
+		{
+            if (dirs.down)
+                Move(posChange, Direction::DOWN);
+            else
+            {
+
+                Direction newDir = decide_direction(mgo, current_tile, Direction::DOWN);
+                Move(posChange, newDir);
+
+            }
+
+		}
+
 		if (keys.fire)
 		{
 			if (CanFire())
@@ -70,11 +181,29 @@ public:
 	// param move depends on the time, so the player moves always at the same speed on any computer
 	void Move(float move, Direction dir)
 	{
-	    this -> mgo -> setDirection(dir);
-	    if(dir == Direction::UP || dir == Direction::DOWN)
-            go->verticalPosition += move;
-        else
-            go->horizontalPosition += move;
+	    if(dir != Direction::NONE)
+            this -> mgo -> setDirection(dir);
+	    switch(dir)
+	    {
+            case Direction::LEFT :
+                mgo -> horizontalPosition -= move;
+                break;
+
+            case Direction::RIGHT :
+                mgo -> horizontalPosition += move;
+                break;
+
+            case Direction::UP :
+                mgo -> verticalPosition -= move;
+                break;
+
+            case Direction::DOWN :
+                mgo -> verticalPosition += move;
+                break;
+
+            default:
+                break;
+	    }
 	}
 
 	// return true if enough time has passed from the previous Projectile
