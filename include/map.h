@@ -13,6 +13,8 @@ const int startY = 3 * SPRITE_SIDE;
 
 class Map
 {
+  //Boolean Grid for the maps in pixel dimensions
+  bool bpmg[mapH * SPRITE_SIDE][mapW * SPRITE_SIDE];
     public:
         Map();
         ~Map();

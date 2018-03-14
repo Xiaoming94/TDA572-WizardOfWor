@@ -6,6 +6,86 @@
 #include <cmath>
 #include <iostream>
 
+struct MapBlock
+{
+    int block[SPRITE_SIDE][SPRITE_SIDE];
+}currblock;
+
+void getMapBlock(WallType wt)
+{
+    for (int i = 0; i < SPRITE_SIDE; i++)
+    {
+      for (int j = 0; j < SPRITE_SIDE; j++)
+      {
+        switch(wt){
+          case WallType::BOTH_H :
+            if(j < 2 || j > (SPRITE_SIDE - 3))
+              currblock.block[i][j] = 1;
+            else
+              currblock.block[i][j] = 0;
+            break;
+          case WallType::BOTH_V :
+            if(i < 2 || i > (SPRITE_SIDE - 3))
+              currblock.block[i][j] = 1;
+            else
+              currblock.block[i][j] = 0;
+            break;
+          case WallType::CORNER_BL :
+            if((i < (SPRITE_SIDE - 2) && j < 2) || i >= (SPRITE_SIDE - 2))
+              currblock.block[i][j] = 1;
+            else
+              currblock.block[i][j] = 0;
+            break;
+          case WallType::CORNER_BR :
+            if((i < (SPRITE_SIDE - 2) && j > (SPRITE_SIDE - 3) || i >= (SPRITE_SIDE - 2)))
+              currblock.block[i][j] = 1;
+            else
+              currblock.block[i][j] = 0;
+            break;
+          case WallType::CORNER_TL :
+            if(i < 2 || i >= 2 && j < 2)
+              currblock.block[i][j] = 1;
+            else
+              currblock.block[i][j] = 0;
+            break;
+          case WallType::CORNER_TR :
+            if(i < 2 || i >= 2 && j > (SPRITE_SIDE - 3))
+              currblock.block[i][j] = 1;
+            else
+              currblock.block[i][j] = 0;
+            break;
+
+          case WallType::DOWN :
+            if(i > (SPRITE_SIDE - 3))
+              currblock.block[i][j] = 1;
+            else
+              currblock.block[i][j] = 0;
+            break;
+          case WallType::LEFT :
+            if(j < 2)
+              currblock.block[i][j] = 1;
+            else
+              currblock.block[i][j] = 0;
+            break;
+          case WallType::UP :
+            if(i < 2)
+              currblock.block[i][j] = 1;
+            else
+              currblock.block[i][j] = 0;
+            break;
+          case WallType::RIGHT :
+            if(j > (SPRITE_SIDE - 3))
+              currblock.block[i][j] = 1;
+            else
+              currblock.block[i][j] = 0;
+            break;
+          default:
+            currblock.block[i][j] = 0;
+        }
+      }
+    }
+}
+
 Map::Map(){}
 
 Map::~Map()
@@ -63,6 +143,14 @@ void Map::create(std::string map_model,AvancezLib* system)
                 wrc -> Create(system, wall_tile, NULL, wt);
                 wall_tile -> AddComponent(wrc);
             }
+            getMapBlock(wt);
+            for(int i = 0; i < SPRITE_SIDE; i++){
+              for(int j = 0; j < SPRITE_SIDE; j++)
+              {
+                bpmg[y-startY+i][x-startX+j] = currblock.block[i][j] == 1 ? true : false;
+
+              }
+            }
             map_row.push_back(wall_tile);
             x+=SPRITE_SIDE;
         }
@@ -117,4 +205,3 @@ Map * create_standard_map(AvancezLib* system)
     the_map -> create(standardMap, system);
     return the_map;
 }
-
