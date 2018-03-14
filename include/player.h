@@ -6,6 +6,14 @@
 #define PLAYER1_SPRITE "assets/WorriorGold.bmp"
 #define PLAYER2_SPRITE "assets/WorriorBlue.bmp"
 
+
+/**
+ * A direction decider function
+ * handles the player moving direction if the player cannot move in the soughtforDirection
+ * This function is purely for User Experience enhancement
+ * Handles everycases of Direction shifting
+ * Assuming the player cannot move in a certain direction
+ */
 Direction decide_direction(MovingGameObject * mgo, Wall * tile, Direction soughtDir)
 {
     WallType wt = tile -> getWallType();
