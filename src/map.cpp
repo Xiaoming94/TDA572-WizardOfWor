@@ -97,6 +97,8 @@ Map::~Map()
         }
     }
 }
+
+
 void Map::create(std::string map_model,AvancezLib* system)
 {
     SDL_Log("Map::Create");
@@ -158,7 +160,6 @@ void Map::create(std::string map_model,AvancezLib* system)
         y+=SPRITE_SIDE;
     }
     SDL_Log(std::to_string(the_map.size()).c_str());
-
 }
 
 void Map::draw()
@@ -188,6 +189,32 @@ Wall * Map::tileAt(double x, double y)
 Wall * Map::tileAt(int x, int y)
 {
     return the_map.at(y).at(x);
+}
+
+
+/**
+ * Checks weather or not a position is valid in this maze
+ * Assuming each cell in this maze is 32x32 and that each wall is 2pixels in width
+ * Than testing for overlap with a wall pixel or not
+ */
+bool Map::isPositionValid(int x, int y)
+{
+    //Calculating the coordinates of the 28 x 28 object
+    int objcordX1 = x + 2;               // Left edge
+    int objcordX2 = objcordX1 + 28; // Right edge
+    int objcordY1 = y + 2;               // Up edge
+    int objcordY2 = objcordY1 + 28; // Down edge
+    for(int i = objcordY1; i < objcordY2; i++)
+    {
+        for(int j = objcordX1; j < objcordX2; j++)
+        {
+            if(bpmg[i - startY][j - startX])
+            {
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 Map * create_standard_map(AvancezLib* system)

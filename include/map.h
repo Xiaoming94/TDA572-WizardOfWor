@@ -5,6 +5,7 @@
 #include <string>
 #include "wall.h"
 #include "constants.h"
+#include "direction.h"
 
 const int mapW = 8;
 const int mapH = 6;
@@ -13,8 +14,7 @@ const int startY = 3 * SPRITE_SIDE;
 
 class Map
 {
-  //Boolean Grid for the maps in pixel dimensions
-  bool bpmg[mapH * SPRITE_SIDE][mapW * SPRITE_SIDE];
+
     public:
         Map();
         ~Map();
@@ -22,7 +22,10 @@ class Map
         void draw();
         Wall * tileAt(double x, double y);
         Wall * tileAt(int x, int y);
+        bool isPositionValid(int x, int y);
+
     protected:
+        bool bpmg[mapH * SPRITE_SIDE][mapW * SPRITE_SIDE]; //boolean pixel map grid.
         std::vector<std::vector<Wall*>> the_map;
     private:
 };

@@ -2,6 +2,7 @@
 #include "moving_component.h"
 #include "collidable.h"
 #include "map.h"
+#include <iostream>
 
 #define PLAYER1_SPRITE "assets/WorriorGold.bmp"
 #define PLAYER2_SPRITE "assets/WorriorBlue.bmp"
@@ -39,10 +40,10 @@ public:
 
 	virtual void Update(float dt)
 	{
+
 		KeyStatus keys = system->getKeyStatus(isPlayer1);
 		//Check maze boundaries;
-		Wall * current_tile = game_map -> tileAt(go -> horizontalPosition, go -> verticalPosition);
-		PossibleDirections dirs = GetPossibleDirs(current_tile);
+		PossibleDirections dirs = GetPossibleDirs(dt,PLAYER_SPEED);
 		if (keys.right && dirs.right)
 			Move(dt * PLAYER_SPEED, Direction::RIGHT);
 		else if (keys.left && dirs.left)
@@ -64,7 +65,6 @@ public:
 				}
 			}
 		}
-		CheckWallBound(current_tile);
 	}
 	// move the player left or right
 	// param move depends on the time, so the player moves always at the same speed on any computer

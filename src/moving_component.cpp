@@ -1,4 +1,32 @@
 #include "moving_component.h"
+#include <iostream>
+
+// Helper function
+bool isDirectionValid(MovingGameObject * go, float dt, float speed, Direction dir, Map * m)
+{
+    if (dir == Direction::NONE)
+        return true;
+    double newHPos = go -> horizontalPosition;
+    double newVPos = go -> verticalPosition;
+    switch(dir)
+    {
+        case Direction::LEFT :
+            newHPos = newHPos - dt * speed;
+            break;
+        case Direction::UP :
+            newVPos = newVPos - dt * speed;
+            break;
+        case Direction::RIGHT :
+            newHPos = newHPos + dt * speed;
+            break;
+        case Direction::DOWN :
+            newVPos = newVPos + dt * speed;
+            break;
+        default :
+            break;
+    }
+    return m -> isPositionValid(int(newHPos), int(newVPos));
+}
 
 void MovingComponent::Create(AvancezLib* system,
                         MovingGameObject * mgo,
@@ -10,126 +38,12 @@ void MovingComponent::Create(AvancezLib* system,
     this -> game_map = game_map;
 }
 
-void MovingComponent::CheckWallBound(Wall * current_tile)
+PossibleDirections MovingComponent::GetPossibleDirs(float dt, float speed)
 {
-    switch(current_tile -> getWallType())
-    {
-        case WallType::BOTH_H :
-            if(go -> horizontalPosition >= current_tile -> horizontalPosition
-                || go -> horizontalPosition <= current_tile -> horizontalPosition)
-                go -> horizontalPosition = current_tile -> horizontalPosition;
-            break;
-        case WallType::BOTH_V :
-            if(go -> verticalPosition > current_tile -> verticalPosition
-                || go -> verticalPosition < current_tile -> verticalPosition)
-                go -> verticalPosition = current_tile -> verticalPosition;
-            break;
-        case WallType::CORNER_BL :
-            if(go->horizontalPosition < current_tile-> horizontalPosition)
-                go->horizontalPosition = current_tile-> horizontalPosition;
-            if(go->verticalPosition > current_tile-> verticalPosition)
-                go->verticalPosition = current_tile-> verticalPosition;
-            break;
-        case WallType::CORNER_BR :
-            if(go->horizontalPosition > current_tile-> horizontalPosition)
-                go->horizontalPosition = current_tile-> horizontalPosition;
-            if(go->verticalPosition > current_tile-> verticalPosition)
-                go->verticalPosition = current_tile-> verticalPosition;
-            break;
-        case WallType::CORNER_TL :
-            if(go->horizontalPosition < current_tile-> horizontalPosition)
-                go->horizontalPosition = current_tile-> horizontalPosition;
-            if(go->verticalPosition < current_tile-> verticalPosition)
-                go->verticalPosition = current_tile-> verticalPosition;
-            break;
-        case WallType::CORNER_TR :
-            if(go->horizontalPosition > current_tile-> horizontalPosition)
-                go->horizontalPosition = current_tile-> horizontalPosition;
-            if(go->verticalPosition < current_tile-> verticalPosition)
-                go->verticalPosition = current_tile-> verticalPosition;
-            break;
-        case WallType::DOWN :
-            if(go->verticalPosition > current_tile->verticalPosition)
-                go->verticalPosition = current_tile->verticalPosition;
-            break;
-        case WallType::LEFT :
-            if(go->horizontalPosition < current_tile->horizontalPosition)
-                go->horizontalPosition = current_tile->horizontalPosition;
-            break;
-        case WallType::UP :
-            if(go->verticalPosition < current_tile->verticalPosition)
-                go->verticalPosition = current_tile->verticalPosition;
-            break;
-        case WallType::RIGHT :
-            if(go->horizontalPosition > current_tile->horizontalPosition)
-                go->horizontalPosition = current_tile->horizontalPosition;
-            break;
-        default:
-            break;
-
-        }
-}
-
-PossibleDirections MovingComponent::GetPossibleDirs(Wall * current_tile)
-{
-    PossibleDirections dirs;
-    switch(current_tile -> getWallType())
-    {
-        case WallType::BOTH_H :
-            if(go -> horizontalPosition >= current_tile -> horizontalPosition
-                || go -> horizontalPosition <= current_tile -> horizontalPosition)
-                dirs.left = false;
-                dirs.right = false;
-            break;
-        case WallType::BOTH_V :
-            if(go -> verticalPosition >= current_tile -> verticalPosition
-                || go -> verticalPosition <= current_tile -> verticalPosition)
-                dirs.up = false;
-                dirs.down = false;
-            break;
-        case WallType::CORNER_BL :
-            if(go->horizontalPosition <= current_tile-> horizontalPosition)
-                dirs.left = false;
-            if(go->verticalPosition >= current_tile-> verticalPosition)
-                dirs.down = false;
-            break;
-        case WallType::CORNER_BR :
-            if(go->horizontalPosition >= current_tile-> horizontalPosition)
-                dirs.right = false;
-            if(go->verticalPosition >= current_tile-> verticalPosition)
-                dirs.down = false;
-            break;
-        case WallType::CORNER_TL :
-            if(go->horizontalPosition <= current_tile-> horizontalPosition)
-                dirs.left = false;
-            if(go->verticalPosition <= current_tile-> verticalPosition)
-                dirs.up = false;
-            break;
-        case WallType::CORNER_TR :
-            if(go->horizontalPosition >= current_tile-> horizontalPosition)
-                dirs.right = false;
-            if(go->verticalPosition <= current_tile-> verticalPosition)
-                dirs.up = false;
-            break;
-        case WallType::DOWN :
-            if(go->verticalPosition >= current_tile->verticalPosition)
-                dirs.down = false;
-            break;
-        case WallType::LEFT :
-            if(go->horizontalPosition <= current_tile->horizontalPosition)
-                dirs.left = false;
-            break;
-        case WallType::UP :
-            if(go->verticalPosition <= current_tile->verticalPosition)
-                dirs.up = false;
-            break;
-        case WallType::RIGHT :
-            if(go->horizontalPosition >= current_tile->horizontalPosition)
-                dirs.right = false;
-            break;
-        default:
-            break;
-
-        }
-        return dirs;
+    PossibleDirections dir;
+    dir.left = isDirectionValid(this -> mgo, dt, speed, Direction::LEFT, game_map);
+    dir.up = isDirectionValid(this -> mgo, dt, speed, Direction::UP, game_map);
+    dir.right = isDirectionValid(this -> mgo, dt, speed, Direction::RIGHT, game_map);
+    dir.down = isDirectionValid(this -> mgo, dt, speed, Direction::DOWN, game_map);
+    return dir;
 }

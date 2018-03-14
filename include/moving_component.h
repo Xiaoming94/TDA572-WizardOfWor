@@ -22,8 +22,7 @@ class MovingComponent : public Component
                     MovingGameObject * mgo,
                     std::set<GameObject*> * game_objects,
                     Map * game_map);
-        void CheckWallBound(Wall * current_tile);
-        PossibleDirections GetPossibleDirs(Wall * current_tile);
+        PossibleDirections GetPossibleDirs(float dt, float speed);
         Map * game_map;
 };
 
