@@ -9,14 +9,16 @@
 
 #include "constants.h"
 
-float game_speed = 1.f;
+float               game_speed = 1.f;
+
 #include "component.h"
 #include "game_object.h"
 #include "collide_component.h"
-
+#include "aicomponent.h"
 #include "projectile.h"
 #include "player.h"
 #include "enemy.h"
+#include "map.h"
 
 #include "game.h"
 

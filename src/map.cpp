@@ -1,5 +1,4 @@
 #include "map.h"
-#include "constants.h"
 #include <sstream>
 #include <algorithm>
 #include <iterator>

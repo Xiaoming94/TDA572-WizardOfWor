@@ -4,8 +4,9 @@
 #include <vector>
 #include <string>
 #include "wall.h"
-#include "constants.h"
 #include "direction.h"
+#include "constants.h"
+
 
 const int mapW = 8;
 const int mapH = 6;
