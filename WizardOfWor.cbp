@@ -45,6 +45,7 @@
 		</Compiler>
 		<Unit filename="include/SDL.h" />
 		<Unit filename="include/SDL_ttf.h" />
+		<Unit filename="include/aicomponent.h" />
 		<Unit filename="include/avancezlib.h" />
 		<Unit filename="include/collidable.h" />
 		<Unit filename="include/collide_component.h" />
@@ -54,6 +55,7 @@
 		<Unit filename="include/enemy.h" />
 		<Unit filename="include/game.h" />
 		<Unit filename="include/game_object.h" />
+		<Unit filename="include/heuristics.h" />
 		<Unit filename="include/map.h" />
 		<Unit filename="include/moving_component.h" />
 		<Unit filename="include/moving_game_object.h" />
@@ -63,12 +65,13 @@
 		<Unit filename="include/projectile_render_component.h" />
 		<Unit filename="include/rocket.h" />
 		<Unit filename="include/wall.h" />
+		<Unit filename="src/aicomponent.cpp" />
 		<Unit filename="src/avancezlib.cpp" />
-		<Unit filename="src/collidable.cpp" />
 		<Unit filename="src/collide_component.cpp" />
 		<Unit filename="src/component.cpp" />
 		<Unit filename="src/enemy.cpp" />
 		<Unit filename="src/game_object.cpp" />
+		<Unit filename="src/heuristics.cpp" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/map.cpp" />
 		<Unit filename="src/moving_component.cpp" />
