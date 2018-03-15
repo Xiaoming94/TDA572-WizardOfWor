@@ -8,7 +8,7 @@
 #include "moving_component.h"
 #include "collidable.h"
 
-typedef std::map<double,Direction> heuMap;
+typedef std::map<double,Direction> HeuristicsMap;
 //More a wrapper object for performing heuristics
 class Heuristics
 {
@@ -16,16 +16,16 @@ class Heuristics
         Map * game_map;
 
     public:
-        Heuristics();
-        virtual ~Heuristics();
+        Heuristics(){};
+        ~Heuristics(){};
         void create(Map * game_map);
 
         // Heuristics for movement on evaluating each tile
-        virtual heuMap movement (
+        virtual HeuristicsMap movement (
             PossibleDirections dirs,           // Possible direction in a given tick.
             ObjectPool <Collidable> * targets, // ObjectPool of targets.
             double x, double y                 // Coordinate of the AI Using these heuristics in double space for precision
-        );
+        ){ HeuristicsMap hm; return hm; }
 
         // Heuristics for Shooting a certain target
         virtual bool shoot(Collidable * target){ return false; }

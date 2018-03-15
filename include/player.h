@@ -256,6 +256,7 @@ public:
     int score = 0;
 	int lives;	// it's game over when goes below zero
 
+    Player(){ SDL_Log("Player::Construct");}
 	virtual ~Player()	{		SDL_Log("Player::~Player");	}
 
 	virtual void Init()

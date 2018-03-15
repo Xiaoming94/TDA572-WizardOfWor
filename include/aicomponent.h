@@ -9,6 +9,8 @@
 class AIComponent : public MovingComponent
 {
     public:
+        AIComponent(){}
+        virtual ~AIComponent(){}
         void Create(
            AvancezLib* system,
            MovingGameObject * mgo,
@@ -16,7 +18,7 @@ class AIComponent : public MovingComponent
            Map * game_map,
            Heuristics h
         );
-        void Update(float dt);
+        virtual void Update(float dt) = 0;
         bool canshot()
         {
             extern float game_speed;
@@ -29,7 +31,8 @@ class AIComponent : public MovingComponent
             SDL_Log("fire!");
             return true;
         }
-        virtual Direction getNextWalkingDirection(float dt);
+        void SetTargets(ObjectPool < Collidable> * targets);
+        virtual Direction getNextWalkingDirection(float dt)=0;
 
 
     protected:

@@ -23,7 +23,7 @@ public:
 
 	virtual void Create();
 	virtual void AddComponent(Component * component);
-
+    virtual void Copy(const GameObject go);
 	virtual void Init();
 	virtual void Update(float dt);
 	virtual void Destroy();

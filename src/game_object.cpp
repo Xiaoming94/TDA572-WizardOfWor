@@ -60,3 +60,9 @@ void GameObject::Send(Message m)
 		receivers[i]->Receive(m);
 	}
 }
+
+void GameObject::Copy(const GameObject go)
+{
+    this -> horizontalPosition = go.horizontalPosition;
+    this -> verticalPosition = go.verticalPosition;
+}

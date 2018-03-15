@@ -12,3 +12,8 @@ void AIComponent::Create(
     this -> h = h;
     h.create(game_map);
 }
+
+void AIComponent::SetTargets(ObjectPool < Collidable > * targets)
+{
+    this -> targets = targets;
+}
