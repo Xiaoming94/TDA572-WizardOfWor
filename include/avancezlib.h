@@ -4,7 +4,7 @@
 #include "SDL.h"
 #include "SDL_ttf.h"
 
-typedef struct KeyStatus
+struct KeyStatus
 	{
 		bool fire = false; // space
 		bool left = false; // left arrow
