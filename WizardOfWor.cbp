@@ -46,6 +46,7 @@
 		<Unit filename="include/SDL.h" />
 		<Unit filename="include/SDL_ttf.h" />
 		<Unit filename="include/aicomponent.h" />
+		<Unit filename="include/astar_aicomponent.h" />
 		<Unit filename="include/avancezlib.h" />
 		<Unit filename="include/collidable.h" />
 		<Unit filename="include/collide_component.h" />
@@ -66,6 +67,7 @@
 		<Unit filename="include/rocket.h" />
 		<Unit filename="include/wall.h" />
 		<Unit filename="src/aicomponent.cpp" />
+		<Unit filename="src/astar_aicomponent.cpp" />
 		<Unit filename="src/avancezlib.cpp" />
 		<Unit filename="src/collide_component.cpp" />
 		<Unit filename="src/component.cpp" />
