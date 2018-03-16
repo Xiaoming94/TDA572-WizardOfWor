@@ -84,13 +84,94 @@
 
   The AI is probably one of the most complex of these problems, This can be broken down into two types of problems: Path finding and Heuristics. There are many algorithms for path searching, including depth first, and breadth first search. There are greedy approaches and algorithms related to dynamic programming. Heuristics problems are related to the path findings, since using good heuristics can greatly influence the performance in time complexity of the path searching algorithm. Heuristics are also good for differentiate each of the unique AI controlled entities behaviour pattern. In this game, due to the existence of reload time, a Heuristics for when to shoot a projectile is important.
 
+  \subsection{Extension}
+  IN addition to the above mentioned features. A decision was made to extend the functionallities of AI to also make it possible for a single-player-AI co-up mode. This is so that the game might be enjoyable even though there is only one player. One of the main challenges with this can once again be referred to the occurences of the prisoners dilemma from the core gameplay for two players. This will be discussed later.
+
   \section{Implementation}
-  This section will give a short description of the development process outlining the design, and modelling choices made, as well as the challenges that came up related to the development of this game. In the beginning of the project, we were given a set of C++ code as a starting point. In this library Basic implementation of a gameloop, a basic set of classes representing the game objects, and each objects components, a basic implementation of a player, and a set of classes that provides functionalities like rendering of sprites and basic IO handling. In addition, a basic implementation of collision detection, and collision handling are implemented.
+  This section will give a short description of the development process outlining the design, and modelling choices made, as well as the challenges that came up related to the development of this game. In the beginning of the project, we were given a set of C++ code as a starting point.
 
-  \section{Two Players Controll}
-  This was more of a design problem rather than an implementation problems.
+  In this library Basic implementation of a gameloop, a basic set of classes representing the game objects, and each objects components, a basic implementation of a player, and a set of classes that provides functionalities like rendering of sprites and basic IO handling. In addition, a basic implementation of collision detection, and collision handling are implemented.
+  Other useful code that were provided are basic implementation of an object pool among other useful utilities.
+
+  \subsection{Class Hierarchy and code structure}
+  C++ as a language provides many useful features that is not seen in it's predecessor C. This includes Object orientation. This projects makes use of this in different ways.
+
+  In this project, the main class-Hierarchy are focused around the \texttt{Component} and \texttt{GameObject} classes. Every thing in the game can be viewed as a GameObject instance. This includes the Tiles in the maze, and every moving entity. Every GameObject have at least one component that handles the rendering of the said GameObject. A moving GameObject uses at least one component that are used to handle the movement, and behaviour of the Moving Game Object.
+
+  It doesn't take long to realise that this game uses a MVC like software architecture design. With the components acting as a part of the Controller and view handling updating and reading the GameObjects.
+
+  During the project additionall subclasses to the two base classes was introduced. This includes a \texttt{MovingGameObject} class that handles the moving directions. Another subclass to \texttt{GameObject} is the \texttt{Collidable} class that are used for collision handling, this is so that the visitor pattern could be used for collision handling. In this project, the \texttt{Collidable} class is a subclass to \texttt{MovingGameObject}.
+
+  The ideal design decision would be to have these as two different classes. However, that introduces an inheritance problems one a GameObject is both Moving and Collidable. This is the infamous Diamond structure, which is a not really a desired inheritance structure if their common superclass have data fields. Since most of the Moving entites are also collidable , with Projectiles being an exception since they can only "collide with" other entities but not collided on.
+  Thus the decision to make \texttt{Collidable} into a subclass for \texttt{MovingGameObject} was made. Appart from that, almost every entity in the game is represented by a subclass.
+
+  One of the most significant subclass to the \texttt{Component} is the \texttt{AIComponent} class which serves as a basic class for AI behaviour. An notable subclass to that is the \texttt{AstarAIComponent} class, which is the base class for an AI using the $A^*$ path searching algorithm. The AIComponent also holds an instance of the \texttt{Heuristics} to utilise the Strategy pattern for computing different heuristics.
+
+  \subsection{Two Players Controll}
+  This was more of a design problem rather than an implementation problems. Since the provided classes already handles the oneplayer-case movement. Minor modifications to the provided code was made to handle the controll of a second player. The first player (WorriorGold) uses the popular "WASD" controlls and fires with "C".
+
+  While not using WASD, the second human player uses "IJKL" for movement, and "." for firing. This design decision was made so that the hand pattern will remains the same since the controlls are only shifted to the other half of the keyboard.
+
+  An issue might occure with the players body alignment from these controlls, since both controlls are biased towards right-handed controlls. User testing indicates that this is not really a significant problem.
+
+  \subsection{The Map}
+  The modelling and implementation of the Map is very important as described in the previous section.
+
+  The initial implementation of the map is a two dimensional grid of tiles that represent what kind of walls there is to render at a coordinate in the tile grid. Each tile has a dimension of $32\times32$ in the pixel grid space of the actuall model. This model closely represents how the maze is represented graphically.
+
+  To get the current tile each entity was on, the players coordinates are divided by 32 and than moved by the map offset to the screen. Rounding this number will get the Tile that mostpart of the entity is standing in. Though the model sounds simple, it makes the wall collision very verbose, and very logic heavy driven by boolean statements. A bug that was present in the game while using this model was that the entities could "Walk through wall" since the Game though that it was standing on a tile where there is no wall in a said direction.
+
+  Due to the above mentioned bug, and other problems, mostly related to the realization of an AI, A complete overhaul of the map model was made. A binary matrix $M$ where each $32\times32$ chunk submatrix represent a specific tile was made. If value 1 is found on $M_{xy}$, than there was a probably a wall in that chunk of pixels. This model greatly simplified the Wall detection during movement.
+
+  A design decision made was to keep the tile map grid, since it greatly simplifies the rendering of the maze, as well as providing some helpful utilities to handle some smart player movement controll to make some controlls easier.
+
+  The map is also stored in text format before the game actually starts and being loaded inside the game. Currently, the standard map is stored within the sourc ecode.
+
+  \subsection{AI}
+  As mentioned in a previous subsection, the AI greatly relays on the Strategy pattern for heuristics. At the point of writing this report, only one piece of AI was implemented that uses the $A^*$ Path finding algorithm. Different kind of were considered upon. At the time of writing this report, none was actually realised. Note that this might not be the case in the final results that was handed in.
+
+  The original plan was to implement a firing heuristics that tells the AI to shot if able when the target is in the vicinity of about three tiles. More of this is discussed in the Future work section.
+
   \section{Results and Discussion}
+  \begin{figure}
+    \includegraphics[scale=0.5]{assets/lateximg/InGameScreenshot}
+    \caption{The Final results of the development before deadline}
+    \label{game}
+  \end{figure}
 
+  The final results of the project are showcased in figure \ref{game}. Among the keyfeatures, the player controlls, collision detection, as well as the implementation of a Maze. Although, classes and a framework is present in a code, as well as an implementation of the $A^*$ algorithm. At the time of writing, none of this was actually realised thus the last AI-key feature cannot be considered complete. Note that this is at the time of writing this report.
+
+  The current game has no monsters outside of a simple burwor to showcase collision handling and the scoring. As well as a small maze to showcase the movement. Also, currently the game can be played by two players with the controlls that are described in the last section.
+
+  Mainly due to the AI-parts, and the aesthetics not fully implemented as of yet. The Project cannot be considered complete as of writing this report.
+
+  \subsection{Challenges and Setbacks}
+  There were many challenges faced during the project development. Many of those are related to C++ and the inexperience with it. Due to the nature of C++ as a compiled language and the massive codebase, testing new pieces of written code like classes and functions are not easlily performed without rewriting the \texttt{main.cpp} file. This, accommodated with the side-effects oriented logic base of the code made it incredibly hard to debug certain behaviours.
+
+  One such issues are segmentation faults, which are results from reading on non valid memory addresses among other causes. Another examples of issues arises forinstance when reading outside array boundaries, sometimes, this doesn't give a segmentation faults, but can result in strange behaviours that is even harder to debug than segmentation faults.
+
+  The overall complexity of the game and it's various systems can also be considered a challenge. Especially for a single man team like this one. The fact that the team member himself isn't that experienced with either C++ or Game development in general, the project took much longer time than expected. For example, finding the optimal representation of a maze took much longer time, and a complete overhaul to finally be usable.
+
+  Complexity is one thing, but one of the main reasons for this uncompleted project is due to bad time-planning as well as underestimation of the complexity of the game itself. The bad time-planning is be described as a combination of underestimating the problem complexity, inexperience with the given tools and languages. This in term also resulted in dedication to other projects and courses. The bad time planning it self is also a result of inexperience within game development in general, as well as bad motivation versus ambition.
+
+  \subsection{Future Work}
+  A thing that could be done in the future is to finish the game and make it a closer clone to the original with the addition of single AI-Player Co-up mode. This involves implementing, and realising more Maps and implement the animations and sound effects. This is already doable by creating subclasses to the \texttt{RenderComponent} class that came with the initial code base.
+
+  Another intersting thing would be to utilising and implementing heuristics of stochastic nature,and more search algorithms for path finding. One such algorithm could be monte-carlo tree-search for path finding for instance. Finding a good heuristics for shooting would be one of the things that would be an interesting exploration area for the future since there are many ways this could be done.
+
+  The most interesting part is to implement a more sophisticated stochastic heuristics for the Player2-AI. Forinstance having a trained Neural Network, that could evaluate the overal profit of taking a certain turn. This is especially interesting due to the prisoners dilemma situation. One can explore weather the AI would for instance evaluate the profit vs tradeoff for going after the other player, since according to the basic game theory, the most profitable decision in the prisoners dilemma for a single player would be to betray it's partner. Game theory also tells that the most profitable situation for both players though are to cooperate.
+
+  These among other stuff are interesting things worth experiment with and exploring when developing the player2 AI.
+
+  \section{Conclusion and Final Verdicts}
+
+  To sum up the project, eventhough the game itself was never finished, larger portions of the key-features that was planned for this project was implemented with the AI not really realised in some way as of writing this report. This is largely due to inexperience, bad planning and underestion of the problem complexity.
+
+  Since this is a course in Game Engine Architecture. Being able to learn from the standard problems and the challenges might be a soughtful experince and knowledge. Especially for this team of one student that is inexperienced in the area of game development, and interactive simulations.
+
+  With this in mind, a lot can be learned from this project, esepcially in the time distribution department. But also regarding game engines and game development as a whole. The team memebers would be better geared in the future when facing the problems that took form during the course of the project. Learning to better estimating problem complexity within game development, and time planning are also valuable experience that the team memebers would keep and make use of in the future.
+
+\newpage
   \section{Appendix}
   \subsection{Prisoners Dilemma}
 
