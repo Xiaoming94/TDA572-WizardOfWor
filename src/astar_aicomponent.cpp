@@ -3,23 +3,11 @@
 #include <vector>
 #include <functional>
 #include <cmath>
-class Node
-{
-    public:
-        double cost;
-        GameObject go;
-        Node(GameObject go, double cost)
-        {
-            this -> cost = cost;
-            this -> go = go;
-        }
-};
 
 bool Compare(Node n1, Node n2)
 {
     return n1.cost < n2.cost;
 }
-
 
 typedef std::priority_queue<Node,std::vector<Node>,std::function<bool(Node,Node)>> prioqueue;
 
@@ -57,7 +45,7 @@ void AstarAIComponent::Update(float dt)
 
 }
 
-Direction AstarAIComponent::getNextWalkingDirection(float dt)
+Direction AstarAIComponent::getNextWalkingDirection(float change)
 {
     prioqueue pq(Compare);
     ObjectPool<Collidable> * astar_targets = new ObjectPool<Collidable>();
@@ -65,6 +53,15 @@ Direction AstarAIComponent::getNextWalkingDirection(float dt)
         astar_targets = findTop4Targets(targets -> pool, this->mgo);
     else
         astar_targets = this -> targets;
+    do
+    {
+        PossibleDirections dirs = MovingComponent::GetPossibleDirs(change);
+        HeuristicVec hvec = h.movement(dirs, astar_targets, mgo -> horizontalPosition, mgo -> verticalPosition);
+        double val_up = hvec.at(0);
+        double val_left = hvec.at(1);
+        double val_down = hvec.at(2);
+        double val_right = hvec.at(3);
+    }while(true);
 
 
 

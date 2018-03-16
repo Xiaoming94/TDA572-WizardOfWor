@@ -32,7 +32,7 @@ class AIComponent : public MovingComponent
             return true;
         }
         void SetTargets(ObjectPool < Collidable> * targets);
-        virtual Direction getNextWalkingDirection(float dt)=0;
+        virtual Direction getNextWalkingDirection(float change)=0;
 
 
     protected:

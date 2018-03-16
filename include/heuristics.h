@@ -4,11 +4,19 @@
 #include "map.h"
 #include "object_pool.h"
 #include <queue>
-#include <map>
+#include <vector>
 #include "moving_component.h"
 #include "collidable.h"
 
-typedef std::map<double,Direction> HeuristicsMap;
+/**
+ * A vector where the indices corresponds to the values of the following directions:
+ * 0: UP
+ * 1: LEFT
+ * 2: DOWN
+ * 3: RIGHT
+ */
+typedef std::vector<double> HeuristicVec;
+
 //More a wrapper object for performing heuristics
 class Heuristics
 {
@@ -21,11 +29,11 @@ class Heuristics
         void create(Map * game_map);
 
         // Heuristics for movement on evaluating each tile
-        virtual HeuristicsMap movement (
+        virtual HeuristicVec movement (
             PossibleDirections dirs,           // Possible direction in a given tick.
             ObjectPool <Collidable> * targets, // ObjectPool of targets.
             double x, double y                 // Coordinate of the AI Using these heuristics in double space for precision
-        ){ HeuristicsMap hm; return hm; }
+        ){ HeuristicVec hvec; return hvec; }
 
         // Heuristics for Shooting a certain target
         virtual bool shoot(Collidable * target){ return false; }
