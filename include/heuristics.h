@@ -32,7 +32,8 @@ class Heuristics
         virtual HeuristicVec movement (
             PossibleDirections dirs,           // Possible direction in a given tick.
             ObjectPool <Collidable> * targets, // ObjectPool of targets.
-            double x, double y                 // Coordinate of the AI Using these heuristics in double space for precision
+            double x, double y, // Coordinate of the AI Using these heuristics in double space for precision
+            float change        // The change factor
         ){ HeuristicVec hvec; return hvec; }
 
         // Heuristics for Shooting a certain target
