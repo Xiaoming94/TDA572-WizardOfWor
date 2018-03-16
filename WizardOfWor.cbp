@@ -17,11 +17,25 @@
 					<Add directory="includes" />
 					<Add directory="src" />
 					<Add directory="include" />
+					<Add directory="SDL2-2.0.8/include" />
+					<Add directory="SDL2_ttf-2.0.14/include" />
 				</Compiler>
+				<ResourceCompiler>
+					<Add directory="SDL2_ttf-2.0.14/include" />
+					<Add directory="SDL2-2.0.8/include" />
+				</ResourceCompiler>
 				<Linker>
 					<Add option="`sdl2-config --libs`" />
 					<Add option="-lSDL2" />
 					<Add option="-lSDL2_ttf" />
+					<Add library="SDL2-2.0.8/lib/x86/SDL2.lib" />
+					<Add library="SDL2-2.0.8/lib/x86/SDL2main.lib" />
+					<Add library="SDL2-2.0.8/lib/x86/SDL2test.lib" />
+					<Add library="SDL2-2.0.8/lib/x86/SDL2.dll" />
+					<Add library="SDL2_ttf-2.0.14/lib/x86/SDL2_ttf.lib" />
+					<Add library="SDL2_ttf-2.0.14/lib/x86/SDL2_ttf.dll" />
+					<Add directory="SDL2-2.0.8/lib/x86" />
+					<Add directory="SDL2_ttf-2.0.14/lib/x86" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -42,7 +56,17 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
+			<Add directory="SDL2-2.0.8/include" />
 		</Compiler>
+		<Linker>
+			<Add library="SDL2-2.0.8/lib/x86/SDL2.dll" />
+			<Add library="SDL2-2.0.8/lib/x86/SDL2.lib" />
+			<Add library="SDL2-2.0.8/lib/x86/SDL2main.lib" />
+			<Add library="SDL2-2.0.8/lib/x86/SDL2test.lib" />
+			<Add library="SDL2_ttf-2.0.14/lib/x86/SDL2_ttf.dll" />
+			<Add library="SDL2_ttf-2.0.14/lib/x86/SDL2_ttf.lib" />
+			<Add directory="SDL2-2.0.8/lib/x86" />
+		</Linker>
 		<Unit filename="include/SDL.h" />
 		<Unit filename="include/SDL_ttf.h" />
 		<Unit filename="include/aicomponent.h" />
